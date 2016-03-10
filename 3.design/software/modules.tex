@@ -1,0 +1,35 @@
+\subsection{Software modules}
+
+
+
+\subsubsection{decaWave module}
+Abstraction layer to its registers and functionalities.
+May consist in the APIs provided by the IC supplier.
+
+\subsubsection{Processes manager}
+Executes different tasks at required time intervals, monitors their return values, collects statistics.
+Explain differences between normal tasks and idle task.
+
+\subsubsection{Configuration manager}
+Stores and retrieves settings of arbitrary type.
+Needed by pretty much anything.
+Will be implemented on top of EEPROM since it's the only available permanent, user-writtable memory (Flash is too, but on a page-basis).
+
+\subsubsection{Command line interface}
+Used for providing runtime infos and changing settings without the need of a debugger probe.
+Will read from UART.
+
+\subsubsection{Time tracking}
+Provides time tracking and management capabilities (virtual timeouts and stopwatches, delays).
+Needed by UAVCAN and processes manager.
+May be POSIX-compliant, if strictly necessary.
+May be implemented through the RTC and timers peripherals or decaWave timestamps system.
+
+\subsubsection{System self-test}
+Verifies correct state of operation and data integrity.
+Needed by UAVCAN (every node shall broadcast its state).
+
+
+
+
+
