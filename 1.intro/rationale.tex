@@ -1,14 +1,32 @@
 \section{Rationale}
+The importance of precise location 
+
+\subsection{RTLS}
 
 From map-making to post tracking, localization has been a fundamental human endeavor which encompassed several ages and civilizations.
-Although GPS has proven to be a major leap is this regard, its current limitations causes it to be unsuitable for some applications.
+Although GPS has proven to be a major leap is this regard, its current limitations causes it to be unsuitable for some purposes.
 First of all, the accuracy lays in the order of a few meters at best, mainly due to the relativistic implication of orbiting satellites \cite{gps1} (that is without considering more advanced techniques such as \emph{RTK}).
 Moreover, signal shadowing and multi-path reflections renders it particularly unreliable indoor or in dense urban areas.
 In order to fulfill the ever-growing demand for automation, more precise location systems have to be employed.
 
-The term RTLS emerged from such needs, and characterizes systems capable of reckoning an tracking the position of moving objects and persons within a relative frame of reference, mainly a building or enclosed area.
-The technologies driving such systems include blabla, although each of them presents its own limitations which prevented them to be used
-Ultra-wide blabla is a relatively new entry in the RTLS blabla
+The term RTLS emerged from such needs, and characterizes systems capable of reckoning, tracking, and showing the position of moving objects and persons within a relative frame of reference, mainly a building or enclosed area.
+The applications benefitting from those systems mainly lay within the logistical/operational areas, and the interested parties range from manufacturing industries to healthcare operators (management of flows of goods in a warehouse or production plant; assets retrieval e.g. tools, medical equipment, cattle; surveillance and monitoring; personnel deployment and supervision).
+Consumer-related applications are also starting to arise in the fields of domotics and electronic devices.
+
+The technologies driving these systems include ultrasounds, infrared radiation, or RSSI (Received signal strength indication) from various sources such as radio frequency modules, WiFi/WLAN, or even bluetooth; however, each of them presents its own limitations which prevented them from being used in large scale. \cite{joost}
+
+The more recent implementation of previously known tecnologies into positioning systems spawned a vast array of previously unforeseen applications, such as their use along with drones and other unmanned vehicles for maintenance and inspection of facilities, emergency situation management, and whenever human intervention may pose a safety threat.
 
 
-Explanation on why RTLS and UAVCAN are useful.
+\subsection{UAVCAN}
+
+Although drones, copters, rovers, and the like are are experiencing a huge rise in popularity in both commercial and hobby use, integrators and final users often have to cope with a vast amount of different protocols and interfaces, some of which directly inherited from the RC modelling world, thus lacking fault tolerancy and scalability.
+For years, the automotive industry has relied on CAN Bus as a means of communication between different microcontrollers and devices, due to its low cost and resilience against electro-magnetic resilience.
+
+UAVCAN is a lightweight open source protocol aimed to provide fast and reliable communication within drone peripherals. \cite{joost}
+A UAVCAN network is composed of a series of nodes which are independent from the others and require no master/controller or host computer.
+The protocol sits on top of the transport and physical layers of CAN and relies on a library for easy integration with the user application code. 
+Common standard high-level functions like node health monitoring, network discovery, time synchronization, and firmware update are predefined and taken care of by the library, while  message definitions for most drone equipment (speed controllers, navigation data, gimbals, actuators) are standardized and publicly available, making it easy for manufacturers to engineer compliant devices and for integrators to interface with them.
+
+
+

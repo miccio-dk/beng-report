@@ -1,3 +1,32 @@
 \section{System description}
 
-Description of how the solution works.
+The system is composed of one (or more) \emph{tags} and up to four \emph{anchors}.
+
+The anchors are to be spread across the area of operation.
+Their coordinates within the frame of reference shall be know beforehand.
+The tag device is located inside the drone/vehicle and is connected through the UAVCAN bus.
+
+Both type of devices share the same hardware design (mainly for development sake), but are flashed with different firmwares.
+It comprises:
+\begin{enumerate}
+\item ARM Cortex-M4 microcontroller
+\item DecaWave DWM1000 module
+\item Inertial measurement unit
+\item Barometric sensor
+\item Power supply unit
+\item CAN transciever and connectors
+\item USB interface
+\item SWD connector for debugging and flashing
+\end{enumerate}
+The boards can be powered through either the USB or the UAVCAN connectors.
+
+The software infrastructure governing both firmwaresis built upon \emph{ChibiOS}, a real-time operating system for embedded devices. 
+Each device --- regardless of its role --- can be configured through a command line interface accessible through the USB.
+
+Each anchor runs the same software routine, but with different parameters (coordinates and transmission delay). 
+Their role is to respond to the polling message sent by the tags.
+
+The tag firmware is responsible for initiating new communications and processing it (in a way that is thorougly described in the \nameref{sec:theory}).
+Whenever a new response message is parsed and the distance between the tag and that anchor calculated, the position estimation is updated. 
+Lastly, the location broadcaster transmit the current estimation to the UAVCAN bus, in an asynchronous fashion.
+
