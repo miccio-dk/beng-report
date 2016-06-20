@@ -14,19 +14,18 @@ It comprises:
 \item Inertial measurement unit
 \item Barometric sensor
 \item Power supply unit
-\item CAN transciever and connectors
+\item CAN transceiver and connectors
 \item USB interface
 \item SWD connector for debugging and flashing
 \end{enumerate}
 The boards can be powered through either the USB or the UAVCAN connectors.
 
-The software infrastructure governing both firmwaresis built upon \emph{ChibiOS}, a real-time operating system for embedded devices. 
+The software infrastructure governing both firmwares is built upon \emph{ChibiOS}, a real-time operating system for embedded devices.
 Each device --- regardless of its role --- can be configured through a command line interface accessible through the USB.
 
-Each anchor runs the same software routine, but with different parameters (coordinates and transmission delay). 
+Each anchor runs the same software routine, but with different parameters (coordinates and transmission delay).
 Their role is to respond to the polling message sent by the tags.
 
-The tag firmware is responsible for initiating new communications and processing it (in a way that is thorougly described in the \nameref{sec:theory}).
-Whenever a new response message is parsed and the distance between the tag and that anchor calculated, the position estimation is updated. 
+The tag firmware is responsible for initiating new communications and processing it (in a way that is thoroughly described in the \nameref{sec:theory}).
+Whenever a new response message is parsed and the distance between the tag and that anchor calculated, the position estimation is updated.
 Lastly, the location broadcaster transmit the current estimation to the UAVCAN bus, in an asynchronous fashion.
-
