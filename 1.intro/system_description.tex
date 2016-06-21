@@ -1,3 +1,4 @@
+% !TEX root = ../root.tex
 \section{System description}
 
 The system is composed of one (or more) \emph{tags} and up to four \emph{anchors}.
@@ -8,7 +9,7 @@ The tag device is located inside the drone/vehicle and is connected through the 
 
 Both type of devices share the same hardware design (mainly for development sake), but are flashed with different firmwares.
 It comprises:
-\begin{enumerate}
+\begin{itemize}
 \item ARM Cortex-M4 microcontroller
 \item DecaWave DWM1000 module
 \item Inertial measurement unit
@@ -17,7 +18,7 @@ It comprises:
 \item CAN transceiver and connectors
 \item USB interface
 \item SWD connector for debugging and flashing
-\end{enumerate}
+\end{itemize}
 The boards can be powered through either the USB or the UAVCAN connectors.
 
 The software infrastructure governing both firmwares is built upon \emph{ChibiOS}, a real-time operating system for embedded devices.
