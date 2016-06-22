@@ -1,13 +1,38 @@
 % !TEX root = ../../root.tex
-\subsection{Setup}
+\subsection{Setup}\label{subsec:sw_setup}
+An overview of the host system used for the development is hereby provided for reference purposes.
 
+\fig{5cm}{sw_stm32.png}{Development environment: typical session}{sw_stm32}
 
 
 \subsubsection{Development environment}
-Description of the IDE and compiler.
+The choice of an integrated development environment has fallen on \emph{Ac6 System Workbench for STM32}, an Eclipse-based IDE with built-in support for the STM32 line of ARM microcontrollers.
+The distribution is based on open-source software, and requires little to no configuration.
+The components shipped with it are:
+\begin{description}
+    \item[GCC ARM Embedded] GCC-based cross compiler and debugger for ARM Cortex platform
+    \item[OpenOCD] On-chip debugging tool supporting a wide range or generic JTAG/SWD interfaces
+    \item[Eclipse CDT] An extensible multi-language IDE
+\end{description}
+All of these packages could be installed manually by fetching them from their respective sources, but doing so with a single archive is undoubtedly more convenient.
+On top of this, it also comes with its own project management facilities like build setting manager, linker script editor, STM evaluation boards library, and so forth.
+
+These latter tools are not taken advantage of --- the project is in fact built using \texttt{make}, as it is the supported build system for both ChibiOS and libuavcan.
+Building projects using makefiles is fully supported within Eclipse.
+
+
+\fig{10cm}{sw_stm32.png}{Development environment: typical session}{sw_stm32}
+
 
 \subsubsection{Project structure}
-Explain code subdivision (HAL, modules, processes, other user app code, and libraries).
+The firmware folder (folders, more correctly, but here summarized as one since they follow the same system) is a self-contained unit which can be downloaded and build without the need of further operations.
+This has been achieved by including all the external code as \texttt{git} submodules.
+
+
 
 \subsubsection{Other tools}
-Sublime Text, git, GitHub, debug server, UAVCAN tools.
+In order to be able to contribute from any given location (work PC, personal laptop\dots), the source code folder is hosted on a web-based \texttt{git} repository manager called \emph{GitLab}.
+GitLab provides most of the functionalities of GitHub (which was originally used) but can run on premises, making it more suitable for internal research projects.
+Ordinary maintenance of the repository is performed from command-line, with the aid of graphical \texttt{diff}-tool \emph{Meld} for code revision.
+
+Whilst the IDE's powerful code completion is useful for general programming, external text editors such as \emph{SublimeText} or \emph{Atom} are sometimes used as well, especially when large amount of code has to be refactored or restructured.

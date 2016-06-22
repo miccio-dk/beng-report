@@ -1,5 +1,11 @@
 % !TEX root = ../../root.tex
-\subsection{Setup}
+\subsection{Setup}\label{subsec:hw_setup}
 
-Information about the environment: KiCad, libraries, supply voltages, connectivity, and tags / beacons layout.
-Information about the physical tools: dev board, debugger probe, scopes etc \dots
+The schematic capture, PCB layout, and subsequent export of production files (Gerber,) has all been performed with the aid of \\emph{KiCad}, an open-source ECAD software.
+Most of the necessary components were available out of the box, with the missing ones imported from the company's \emph{Eagle} libraries.
+KiCad also include a component library editor for both symbols and footprints.
+
+For hardware troubleshooting and testing, a quad-channel Tektronix digital oscilloscope was used.
+
+Connection of the board to the host system for firmware upload and debug was possible thanks to an \emph{ST-LINK/V2}-compatible SWD in-circuit debugger.
+Before the custom-made PCB were available, development has been carried out on a \emph{STM32F4DISCOVERY} board, which features an the aforementioned debugger probe, an MCU from a compatible family, and pin headers.

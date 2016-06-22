@@ -1,7 +1,18 @@
 % !TEX root = ../root.tex
 \chapter{Design and implementation}\label{ch:design}
 
+This section focuses on the design and implementation of the proposed solution into a physical product.
+It namely consists in the microcontroller-driven circuit board design, the firmware for the beacons/anchors, and that of the tag.
 
+During the course of the development there have been two major hardware design iterations, with the latter completely breaking compatibility with previous code.
+This controversial measure has been deemed necessary after having invested a considerable amount of the allocated time trying to troubleshot the decaWave module transmission failures. (refer to \nameref{subsec:overview} ID\# PU.4, SC.2 and \nameref{subsec:prevention} ID\# SW.4)
+
+Nevertheless, the upcoming sections will present an exhaustive description of the system, which may serve as a vademecum for the continuation of the project (outside of its academic scope).
+Such solution is based on the second, more successful iteration of the project.
+Notions about the former design are included in the \nameref{app:0}.
+Adequate considerations about the development process will be drawn in \autoref{sec:concl_proc}.
+
+Amongst the third-party tools and software/hardware components employed in the making of the project, only those directly embedded into the implementation of the aforementioned designs (e.g. UAVCAN stack, ChibiOS, the onboard sensors, etc\dots) will be thoroughly described, whilst the others are only briefly mentioned (see \autoref{subsec:hw_setup} and \autoref{subsec:sw_setup}).
 
 \subimport{hardware/}{0}
 

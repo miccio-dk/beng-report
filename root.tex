@@ -9,6 +9,8 @@
 \usepackage{amssymb}
 \usepackage[table, dvipsnames]{xcolor}
 \usepackage{booktabs}
+\usepackage{float}
+\usepackage[binary-units]{siunitx}
 
 % top matter
 \title{UAVCAN-enabled indoor postioning solution for unmanned vehicles}
@@ -17,6 +19,30 @@
 	Centre for Bachelor of Engineering Studies
 	}
 \date{\today}
+
+
+% bunch of hacks
+\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+
+\newcommand{\fig}[4]{
+  \begin{figure}[H]
+  \centerfloat
+    \includegraphics[width=\textwidth,height=#1,keepaspectratio]{figures/#2}
+    \caption{#3}
+    \label{fig:#4}
+  \end{figure}
+}
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\newcommand{\coldot}[1][black]{\Large\textcolor{#1}{\ensuremath\bullet}}
+
 
 
 % here it starts!

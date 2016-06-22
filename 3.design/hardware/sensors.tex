@@ -1,5 +1,12 @@
 % !TEX root = ../../root.tex
 \subsection{Sensors}
 
-Other relevant sensors mounted on the board.
-The board may feature a barometric sensor (for altitude) and an IMU.
+Two supplementary sensors are present on the board: a \emph{BMP-280} pressure sensor and \emph{MPU-9250} inertial measurement unit.
+
+The first one measures atmospheric pressure, which can be used for altitude estimation.
+The latter provides measurements of inertial acceleration, angular rate, and magnetic field along along each of the three axes.
+It operates thanks to internal \emph{MEMS}-based structures which can move relative to each other, and whose change in capacitance is then sampled and processed.
+IMUs are often used to measure the heading of a vehicle in space, and can also be part of a \emph{dead-reckoning system} for position estimation.
+
+As shown on \autoref{fig:blk_dia}, the devices are connected through both a SPI and an I2C bus (as per SW.5, SW.6).
+An additional \texttt{INT} pin is available on the IMU, and can be used

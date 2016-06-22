@@ -1,12 +1,29 @@
+% !TEX root = ../../root.tex
 \section{Software}\label{sec:software}
+
+This section discusses the implementation details of the two firmwares involved in the project.
+The two firmwares share most of the code base, with only the application-level parts performing different operations.
+Their main components are:
+\begin{description}
+    \item[ChibioOS] An open-source real-time operating system (\emph{RTOS}) with portable peripherals support and high-performance kernel
+    \item[Zubax-ChibioOS] Middleware providing a more comprehensive command-line interface over USB, watchdog support, and FLASH-based configuration storage
+    \item[libuavcan] Reference implementation of the UAVCAN protocol written in C++
+    \item[decadriver] APIs for controlling the decaWave products
+    \item[application code] High-level board functionalities and RTLS implementation
+\end{description}
+
+Due to the difficulties presented at the beginning of \autoref{ch:design}, at the time of writing only the anchors software is fully developed.
+For a detailed report of the missing features and requirements, refer to \nameref{sec:test_trace}.
+
+The following subsections will cover the shared project layout, informations and integration details of the third-party modules, and core application.
 
 
 \input{setup}
 
-\input{hal}
-
-\input{modules}
+\input{chibios}
 
 \input{uavcan}
 
-\input{processes}
+\input{modules}
+
+\input{threads}

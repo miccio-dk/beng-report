@@ -1,4 +1,10 @@
 % !TEX root = ../../root.tex
 \subsection{Microcontroller}
 
-Information about the MCU used, its charateristics, and the reasons behind its adoption.
+After the previous failed attempt with the \emph{LPC1549} ARM Cortex-M3 microcontroller running at \SI{72}{\mega\hertz}, it has been deemed necessary to move towards a more powerful MCU with faster serial communication ports.
+
+A better device for the project has been found in the \emph{STMicroelectronics STM32F405RG}.
+It is based upon the 32-bit ARM Cortex-M4 core running at up to \SI{168}{\mega\hertz}, and feature a single-precision FPU, \SI{1}{\mega\byte} of FLASH memory, \SI{192}{\kilo\byte} of static RAM, and a wide array of internal peripherals including CAN, SPI, USART, I2C, and USB.
+
+Most these peripherals are commonly available in modern, high-performances MCUs.
+However, the STM32F405RG has the advantage of being shipped in a 64-pin LQFP package which makes it tiny, inexpensive, and easy to solder manually.

@@ -21,9 +21,8 @@ However, educated estimations require solid data and a tracked history of previo
 Therefore, the final value of the CRI has been neglected in favor of a color-mapped matrix composed of four sub-ranges.
 Whilst selecting these sub-ranges, higher ``granularity'' has been given to the more adverse scenarios.
 
-\begin{table}[!h]
-\centering
-\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\begin{table}[H]
+\centerfloat
 \begin{tabular}{c r P{5em} P{5em} P{5em} P{5em}}
     \toprule
     &               & \multicolumn{4}{c}{\emph{Probability of occurrence}}                                  \\
@@ -41,7 +40,7 @@ Whilst selecting these sub-ranges, higher ``granularity'' has been given to the 
 \end{table}
 
 
-\subsection{Overview}\label{subsec:overview}
+\subsection{Risk assessment}\label{subsec:overview}
 Follows the lists of threats (divided by category) with associated likelihood, impact, and overall CRI.
 The risk index is accompanied with the affected resource(s), chosen amongst:
 \begin{itemize}
@@ -53,11 +52,9 @@ Whenever possible or necessary, a brief explanation of the predicted consequence
 
 \subsubsection{Hardware}
 The estimations are based on company personnel's knowledge and previous experience with the given components and communication protocols governing them.
-For the purpose in this analysis the board components have been divided in primary (microcontroller, DWM1000 module, CAN transciever) and secondary (power supply unit, other sensors, USB interface), based on their importance for the fulfillment of the project.
-\begin{table}[!h]
-\centering
-\newcommand{\coldot}[1][black]{\Large\textcolor{#1}{\ensuremath\bullet}}
-\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+For the purpose in this analysis the board components have been divided in primary (microcontroller, decaWave module, CAN transciever) and secondary (power supply unit, other sensors, USB interface), based on their importance for the fulfillment of the project.
+\begin{table}[H]
+\centerfloat
 \begin{tabular}{@{} l l P{2em} P{2em} P{2em} P{2em} >{\small}l @{}}
     \toprule
     ID      & Risk                    & Prob. & Sev. & CRI              & Res. & \normalfont{Contingencies/Notes} \\
@@ -79,7 +76,7 @@ For the purpose in this analysis the board components have been divided in prima
     PU.1    & MCU doesn't boot up     & 1     & 4    & \coldot[Yellow]  & T    & \\
     PU.2    & MCU not detected by SWD & 2     & 4    & \coldot[Orange]  & T    & Tedious troubleshooting \\
     PU.3    & High packet loss (USB, CAN) & 1 & 2    & \coldot[Green]   & F    & \\
-    PU.4    & DWM1000 calibration off & 2     & 2    & \coldot[Yellow]  & F    & \\
+    PU.4    & High packet loss (decaWave) & 2 & 4    & \coldot[Orange]  & F    & \\
     \bottomrule
 \end{tabular}
 \caption{Risk assessment: Hardware-related threats}\label{tab:risk_hw}
@@ -88,10 +85,8 @@ For the purpose in this analysis the board components have been divided in prima
 \subsubsection{Software}
 The estimations are based on personal previous development experience, online research, and relevant documentation.
 The table sub-categories loosely reflect the different software layers described in the \nameref{sec:software} section.
-\begin{table}[!h]
-\centering
-\newcommand{\coldot}[1][black]{\Large\textcolor{#1}{\ensuremath\bullet}}
-\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\begin{table}[H]
+\centerfloat
 \begin{tabular}{@{} l l P{2em} P{2em} P{2em} P{2em} >{\small}l @{}}
     \toprule
     ID      & Risk                    & Prob. & Sev. & CRI              & Res. & \normalfont{Contingencies/Notes} \\
@@ -105,20 +100,19 @@ The table sub-categories loosely reflect the different software layers described
     LL.1    & No MCU peripherals drivers & 2  & 3    & \coldot[Yellow]  & TF   & Implement from scratch \\
     LL.2    & No MCU peripherals docs. & 1    & 4    & \coldot[Yellow]  & TC   & Switch MCU vendor/arch. \\
     LL.2    & No comm. with ext. devices & 2  & 4    & \coldot[Orange]  & TF   & \\
-    LL.4    & RTOS not supported      & 2     & 1    & \coldot[Green]   & TF   & Implement port; single thread paradigm \\
     \addlinespace
     MW      & \multicolumn{6}{l}{\emph{Middleware issues (libraries, device APIs\dots)}} \\
     MW.1    & Restrictive/costly license & 1  & 3    & \coldot[Yellow]  & CF   & Purchase; Implement from scratch \\
     MW.2    & Lack of platform support & 3    & 2    & \coldot[Yellow]  & TF   & Implement port \\
     MW.3    & Poor documentation      & 2     & 3    & \coldot[Yellow]  & TF   & \\
-    MW.4    & Unstable/buggy code     & 1     & 2    & \coldot[Green]   & F    & \\
+    MW.4    & Unstable/buggy code     & 2     & 2    & \coldot[Yellow]  & F    & \\
     \addlinespace
     UA      & \multicolumn{6}{l}{\emph{User application-level issues}} \\
     UA.1    & Reached computational limit & 1 & 3    & \coldot[Yellow]  & F    & \\
     UA.2    & Middlewares conflict    & 2     & 3    & \coldot[Yellow]  & TF   & \\
-    UA.3    & Poor ranging accuracy   & 2     & 3    & \coldot[Yellow]  & F    & \\
-    UA.5    & Unimplemented use cases & 2     & 4    & \coldot[Orange]  & T    & Increased time-to-market \\
-    UA.6    & Unmet requirements      & 2     & 4    & \coldot[Orange]  & T    & Increased time-to-market \\
+    UA.3    & Poor system accuracy    & 2     & 3    & \coldot[Yellow]  & F    & \\
+    UA.4    & Unimplemented use cases & 2     & 4    & \coldot[Orange]  & T    & Increased time-to-market \\
+    UA.5    & Unmet requirements      & 2     & 4    & \coldot[Orange]  & T    & Increased time-to-market \\
     \bottomrule
 \end{tabular}
 \caption{Risk assessment: Software-related threats}\label{tab:risk_sw}
@@ -127,25 +121,42 @@ The table sub-categories loosely reflect the different software layers described
 
 \subsection{Prevention and mitigation}\label{subsec:prevention}
 
-After having discerned and evaluated as many threats as possible, a number of preemptive measures will be suggested.
-Four approaces blablabla
+After having discerned and evaluated as many threats as possible, a number of preemptive measures are suggested and summarized on a sub-category basis.
+In order to characterize possible alternative methods, a
 
-Due to the similarities amongst related entries, the risk prevention methods will be discussed on a sub-category basis.
-
-\begin{table}[!h]
-\centering
-\newcommand{\coldot}[1][black]{\Large\textcolor{#1}{\ensuremath\bullet}}
-\begin{tabular}{@{} l l >{\small}p{5em} l @{}}
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} m{3em} >{\small}m{20em} m{5em} m{5em} @{}}
     \toprule
-    ID & \phantom{M} & \normalfont{Description} & Approach \\
+    ID    & \normalfont{Description} & Approach & Applies to \\
     \midrule
-    DE      & \multicolumn{3}{l}{\emph{Development environment issues}} \\
-    \addlinespace
-    LL      & \multicolumn{3}{l}{\emph{Low-level support issues (peripherals, data busses\dots)}} \\
-    \addlinespace
-    MW      & \multicolumn{3}{l}{\emph{Middleware issues (libraries, device APIs\dots)}} \\
-    \addlinespace
-    UA      & \multicolumn{3}{l}{\emph{User application-level issues}} \\
+    HW.1  & Adopt previously employed components and parts & Avoidance & SD, PL \\
+    HW.2  & Follow design resources (datasheets, application notes\dots) from vendors & Reduction & SD, PL, PU \\
+    HW.3  & Allow multiple people to verify the schematics & Reduction & SD \\
+    HW.4  & Adopt established naming conventions for pins and signals & Reduction & SD \\
+    HW.5  & Employ EDA tool's electrical and design rule check (ERC, DRC) & Reduction & SD, PL \\
+    HW.6  & Verify parts availability and costs beforehand & Avoidance & SC \\
+    HW.7  & Keep a local stock of commonly used components & Reduction & SC \\
+    HW.8  & Generate BOM from EDA tool & Avoidance & SC \\
+    HW.9  & Provision from multiple suppliers & Reduction & SC \\
+    HW.10 & Pay for expedited delivery & Retention & SC \\
+    HW.11 & Employ EDA tool's differential pair routing & Reduction & PU \\
+    HW.12 & Limit bitrate to safer value & Retention & PU \\
+    HW.13 & Base solution of DWM1000 (integrated module) instead of DW1000 (IC) & Retention & PU \\
+    \midrule
+    SW.1  & Verify tools availability and support & Avoidance & DE \\
+    SW.2  & Adopt revision control system and host project on dedicated server & Reduction & DE \\
+    SW.3  & Assess MCU capabilities through vendor's evaluation kit & Reduction & DE, LL, UA \\
+    SW.4  & Switch to platform/vendor with more extensive support & Retention & DE, LL \\
+    SW.5  & Provide redundant interfaces whenever possible (e.g. SPI and I2C) & Reduction & LL \\
+    SW.6  & Connect pin to MCU when in doubt about its configuration & Reduction & LL \\
+    SW.7  & Employ open-source software solutions & Reduction & DE, MW \\
+    SW.8  & Acquire fluency with the necessary tools & Reduction & DE, LL, MW \\
+    SW.9  & Use most tested and stable library version & Reduction & MW \\
+    SW.10  & Employ reusable components from own/company source base & Reduction & LL, MW, UA \\
+    SW.11 & Evaluate and test different ranging schemes & Reduction & UA \\
+    SW.12 & Periodically assess development progress & Reduction & UA \\
+    SW.13 & Consult online community (user forums, mailing lists, GitHub\dots) & Reduction & DE, LL, MW, UA \\
     \bottomrule
 \end{tabular}
 \caption{Risk management: threats preventions and mitigation proposal}\label{tab:risk_mgmt}

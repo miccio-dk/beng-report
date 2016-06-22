@@ -3,15 +3,15 @@
 
 The system is composed of one (or more) \emph{tags} and up to four \emph{anchors}.
 
-The anchors are to be spread across the area of operation.
+The anchors are to be spread across the area of operation, and should all intersect the same horizontal plane.
 Their coordinates within the frame of reference shall be know beforehand.
 The tag device is located inside the drone/vehicle and is connected through the UAVCAN bus.
 
-Both type of devices share the same hardware design (mainly for development sake), but are flashed with different firmwares.
+Both type of devices share the same hardware design, but are flashed with different firmwares.
 It comprises:
 \begin{itemize}
 \item ARM Cortex-M4 microcontroller
-\item DecaWave DWM1000 module
+\item decaWave DWM1000 module
 \item Inertial measurement unit
 \item Barometric sensor
 \item Power supply unit

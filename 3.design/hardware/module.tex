@@ -1,6 +1,14 @@
 % !TEX root = ../../root.tex
-\subsection{decaWave module}
+\subsection{decaWave DWM1000 module}
 
-Information about the decaWave IC and module, specs, modes of usage.
+The DWM1000 is an UWB wireless transceiver module designed for easy adoption in two-way ranging schemes.
+It is based around the DW1000, an integrated low-power, single chip CMOS RF transceiver IC compliant with the \emph{IEEE802.15.4-2011 UWB} standard, and has been chosen because it required no RF design: the antenna and associated RF circuitry are already on the module.
 
-These UWB radio modules are designed for easy integration of two-way ranging schemes.
+Along with typical RF modules capabilities such as configurable power modes and data transmission rates, the module can use custom, proprietary leading-edge detection algorithm which --- along with configurable preamble size and optional, non-standard frame delimiter --- can provide accurate timestamping of incoming and departing messages.
+
+The module contains an \SI{38.4}{\mega\hertz} reference crystal used by the SPI interface and the transmitter for signal modulation and timestamps generation.
+Its accuracy is ensured by a factory trimming process which brings the frequency offset down to about \SI{2}{ppm}.
+The on-chip crystal trimming circuit and temperature sensor allows for dynamic temperature compensation.
+
+Interfacing with the device is achieved through an SPI bus that can run at up to \SI{20}{\mega\hertz}.
+Other data connections include the interrupt (IRQ) and reset (RST) signal. 

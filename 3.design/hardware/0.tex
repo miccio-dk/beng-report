@@ -1,6 +1,14 @@
 % !TEX root = ../../root.tex
 \section{Hardware}\label{sec:hardware}
 
+This section will present the hardware architecture of the system, focusing on both large-scale aspect and individual components/subsystems.
+
+The board design consists in a single PCB built around the decaWave DWM1000 ultra-wideband radio module.
+It also includes a with a microcontroller, CAN and USB interfaces, and secondary sensors.
+At least four of them are necessary for a complete system and since the anchors are stationary, they do not require the secondary sensors to be populated.
+
+\fig{5cm}{hw_block.png}{Hardware design: block diagram}{hw_block}
+
 
 \input{setup}
 
