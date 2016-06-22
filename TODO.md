@@ -33,10 +33,10 @@
       - [x] Development environment
       - [ ] Project structure
       - [x] Other tools
-    - [ ] ChibiOS
-      - [ ] HAL
-      - [ ] RT
-      - [ ] configuration
+    - [x] ChibiOS
+      - [x] HAL
+      - [x] RT
+      - [x] configuration
     - [ ] UAVCAN
       - [ ] Protocol
       - [ ] Library

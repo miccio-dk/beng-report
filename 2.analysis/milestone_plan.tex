@@ -4,34 +4,43 @@
 Here is the project milestone plan as formulated during the \emph{Inception} and \emph{Elaboration} phases.
 This version of the plan lists a series of achievements deemed necessary to accomplish the major functionalities.
 It is arranged in a progressive way, with a time axis roughly flowing vertically.
-Each task depends from its sub-tasks and --- more indirectly --- on the previous ones sharing its hierarchy level.
+Each task depends from its sub-tasks and --- more indirectly --- on the previous ones within its hierarchal level.
 
-Although it has been used --- together with the previously discussed \nameref{subsec:u_cases} --- as blabla, casini vari
+Although it has been used --- together with the previously discussed \nameref{subsec:u_cases} --- as a reference for the project implementation, unforeseen difficulties have caused the development to drift considerably from the plan.
 
-Please refer to the \nameref{app:0} for the final version of the milestone plan based on the actual project development.
+Please refer to the \nameref{app:0} for the final version of the milestone plan based on the actual progress.
 
-
-This section should be based on the following (sorted out) milestone plan. It should also refer to the conclusions and appendices for remarks and detailed logs.
-
-\begin{enumerate}
-\item get the modules to work (Arduino, mbed)
-	\begin{enumerate}
-	\item simple tx/rx
-	\item ranging
-	\item localization
-	\end{enumerate}
-\item schematics design
-\item software development
-	\begin{enumerate}
-	\item implement basic peripherals
-	\item port working localization code to ARM
-	\item integrate libUAVCAN
-	\end{enumerate}
-\item integration and validation tests
-\item documentation
-	\begin{enumerate}
-	\item final report
-	\item product datasheet
-	\item production files
-	\end{enumerate}
-\end{enumerate}
+\renewcommand{\labelitemi}{\textbullet}
+\renewcommand{\labelitemii}{\textbullet}
+\renewcommand{\labelitemiii}{\textbullet}
+\renewcommand{\labelitemiv}{\textbullet}
+\begin{itemize}
+\item Extract requirements and use cases
+\item Test functionality of the modules
+	\begin{itemize}
+	\item Simple communication
+	\item Ranging example
+\end{itemize}
+\item Schematics design
+\item Software development
+	\begin{itemize}
+	\item Implement support layers (peripherals, tools\dots)
+	\item Integrate libUAVCAN
+	\begin{itemize}
+		\item Port drivers
+		\item Implement node
+	\end{itemize}
+	\item Localization system
+	\begin{itemize}
+		\item Trilateration
+		\item Data publisher
+	\end{itemize}
+\end{itemize}
+\item Integration and validation tests
+\item Documentation
+	\begin{itemize}
+	\item Project report
+	\item User manual
+	\item Production files
+\end{itemize}
+\end{itemize}

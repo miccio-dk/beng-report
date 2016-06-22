@@ -5,8 +5,8 @@ Two supplementary sensors are present on the board: a \emph{BMP-280} pressure se
 
 The first one measures atmospheric pressure, which can be used for altitude estimation.
 The latter provides measurements of inertial acceleration, angular rate, and magnetic field along along each of the three axes.
-It operates thanks to internal \emph{MEMS}-based structures which can move relative to each other, and whose change in capacitance is then sampled and processed.
+It operates thanks to internal \emph{MEMS}-based suspended structures which move relative to the rest of the die, and whose changes in capacitance are then sampled and processed.
 IMUs are often used to measure the heading of a vehicle in space, and can also be part of a \emph{dead-reckoning system} for position estimation.
 
-As shown on \autoref{fig:blk_dia}, the devices are connected through both a SPI and an I2C bus (as per SW.5, SW.6).
-An additional \texttt{INT} pin is available on the IMU, and can be used
+As shown on \autoref{fig:hw_block}, the devices are connected through both a SPI and an I2C bus (as per SW.5, SW.6).
+An additional \texttt{INT} pin in the IMU is used to notify the microcontroller when new samples are ready.

@@ -1,12 +1,82 @@
 % !TEX root = ../../root.tex
 \subsection{ChibiOS}
+ChibiOS is an open-source, real-time operating system for embedded systems.
+It is written entirely in C and Assembly.
+It has achieved widespread popularity due to its reliability and compactness in terms of binary footprint and computation overhead.
 
+The ChibiOS endeavor includes two kernel variants (RT and NIL, a variant that focuses on low-performance architectures) and a hardware abstraction layer (\emph{HAL}).
+Besides the features already mentioned, ChibiOS can boast on a strong community support, vast range of supported architectures and devices (mainly in the STM32 family), and well-documented code base.
 
+\ref{fig:ch_block} shows the different modules of a typical ChibiOS-based project.
+The major ones are explained in the following sections.
 
-\subsubsection{HAL}
+\fig{6cm}{ch_block.png}{ChibiOS: block diagram}{ch_block}
+% http://it.emcelettronica.com/introduzione-al-chibiosrt
 
 
 \subsubsection{RT}
+RT is the name given to ChibiOS flagship kernel.
+It designed for size and execution efficiency, and is currently available on ARM7, ARM9, ARM Cortex-M, and PowerPC architectures.
+These goals are achieved through its particular design choices, such as using double linked circular lists for its internal data structures, synchronous context switching, and almost complete lack of status code return values in the APIs.
+
+It comes with an extensive set of features, including commonly used real-time programming constructs.
+Follows a list of the most notable ones.
+\begin{itemize}
+    \item \emph{Thread synchronization}: Mutexes, semaphores, condition variables, event flags
+    \item \emph{Thread communication}: Synchronous messages, mailboxes, I/O queues
+    \item \emph{Memory management}: Allocation on both heap and static-size pools (safe \texttt{malloc})
+\end{itemize}
+
+Moreover, it complies with \emph{CMSIS RTOS} set of APIs (making ports to and from different compliant system easier), and \emph{MISRA-2012} coding standard, ensuring code quality and reliability.
+
+There are currently three active branches (2.6, 3.0, and 16.1), and the version used in the project is the one tagged 3.0.1.
+The newest branch is currently not supported by \texttt{libuavcan}.
 
 
-\subsubsection{configuration}
+\subsubsection{HAL}
+The hardware abstraction layer included with ChibiOS is extremely comprehensive an includes support for almost all peripherals in a modern microcontroller.
+In particular, all devices from the STMicroelectronics STM32 line are supported, with HAL drivers and examples available in the code base and capable of running on the major development boards.
+
+Some of the supported features are:
+\begin{itemize}
+    \item \emph{General purpose}: external interrupts, GPIOs, real-time clock
+    \item \emph{Serial protocols}: CAN, I2C, I2S, SPI, UART\dots
+    \item \emph{Analog functionalities}: ACD and DAC
+    \item \emph{Timer functionalities}: one-shot timer, continuous timer, PWM and ICU, and SysTick timer
+    \item \emph{Abstract interfaces}: streams, channels, files, block devices
+    \item \emph{Support}: circular buffers, stream formatter, built-in streams
+\end{itemize}
+Complex drivers can be implemented through one of the abstract interfaces.
+Available complex drivers include MMC/SD cards interfaces and USB CDC device class.
+
+The APIs are portable across different architectures and devices, and only the bottommost of the several layers of abstraction is affected.
+It can as well be used alone in bare-metal projects.
+
+
+\subsubsection{Configuration}
+Most aspects of ChibiOS RT and HAL can be customized by means of precompiler texttt{\#define} directives.
+These can either be declared in the project \texttt{Makefile} or in separate header files within the include path.
+Due to the amount of configuration needed, the second approach has been chosen.
+There are three layers of configuration: board, HAL, MCU, and OS.
+Following ChibiOS conventions, the following files have been used:
+\begin{itemize}
+    \item \texttt{board.h}
+    \item \texttt{chboard.c}
+    \item \texttt{halconf.h}
+    \item \texttt{mcuconf.h}
+    \item \texttt{chconf.h}
+\end{itemize}
+
+The first layer includes the setup of each MCU pin and the frequencies of the external oscillators (HSE for clock generation and LSE for the real-time clock).
+These definitions are then used in the C source file to initialize the device.
+If needed, custom initialization instructions can be added there.
+In this case, it was necessary to configure the CAN pins manually in order to avoid disturbing the bus or triggering interrupts.
+
+The following two files are based on the templates for the specific platform available in the code base.
+The file \texttt{halconf.h} simply defines which HAL driver should be compiled and linked to the project, while \texttt{mcuconf.h} includes the thorough setup of PLL values (performing compile-time checks of their validity) and the enabled peripherals and HAL interfaces.
+
+Lastly, \texttt{chconf.h} is the configuration file for the RTOS.
+Its parameter have been left to default, with the possibility of enabling debug-specific controls depending on build flags.
+
+A ChibiOS project built using GNU Make also requires a properly setup Makefile, which shall include the relevant linker script and port-specific inclusion such as startup, rules, and platform makefiles,
+It may also specify custom compiler flags and definitions.

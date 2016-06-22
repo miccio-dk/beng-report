@@ -2,9 +2,6 @@
 \subsection{Setup}\label{subsec:sw_setup}
 An overview of the host system used for the development is hereby provided for reference purposes.
 
-\fig{5cm}{sw_stm32.png}{Development environment: typical session}{sw_stm32}
-
-
 \subsubsection{Development environment}
 The choice of an integrated development environment has fallen on \emph{Ac6 System Workbench for STM32}, an Eclipse-based IDE with built-in support for the STM32 line of ARM microcontrollers.
 The distribution is based on open-source software, and requires little to no configuration.
@@ -28,6 +25,8 @@ Building projects using makefiles is fully supported within Eclipse.
 The firmware folder (folders, more correctly, but here summarized as one since they follow the same system) is a self-contained unit which can be downloaded and build without the need of further operations.
 This has been achieved by including all the external code as \texttt{git} submodules.
 
+
+\fig{5cm}{sw_block.png}{Software design: structure and modules}{sw_block}
 
 
 \subsubsection{Other tools}
