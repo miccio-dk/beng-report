@@ -28,10 +28,10 @@
     - [x] decaWave module
     - [x] Microcontroller
     - [x] Sensors
-  - [ ] Software
+  - [x] Software
     - [x] Setup
       - [x] Development environment
-      - [ ] Project structure
+      - [x] Project structure
       - [x] Other tools
     - [x] ChibiOS
       - [x] HAL
@@ -40,13 +40,13 @@
     - [x] UAVCAN
       - [x] Library
         - [x] Platform driver
-    - [ ] Software modules
+    - [x] Software modules
       - [x] Board layer
       - [x] UAVCAN Node
       - [x] decaWave drivers
       - [x] Configuration manager
-      - [ ] Command line interface
-      - [ ] Location publisher
+      - [x] Command line interface
+      - [ ] Two-way ranger
       - [ ] Location estimator
       - [ ] Idle task
 - [ ] Testing

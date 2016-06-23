@@ -1,7 +1,7 @@
 \documentclass[a4paper, final]{report}
 
-\usepackage{import}
 \usepackage{hyperref}
+\usepackage{import}
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{multirow}
@@ -11,7 +11,7 @@
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage[binary-units]{siunitx}
-\usepackage{dirtree}
+
 
 % top matter
 \title{UAVCAN-enabled indoor postioning solution for unmanned vehicles}
@@ -45,16 +45,29 @@
 \newcommand{\coldot}[1][black]{\Large\textcolor{#1}{\ensuremath\bullet}}
 
 
-% dunno, it's allan's
+% styling
 \pagestyle{headings}
+\setlength{\parskip}{0.25em}
+\hypersetup{
+    colorlinks,
+    linkcolor={Black},
+    citecolor={Black},
+    urlcolor={Black}
+}
 
 % here it starts!
 \begin{document}
 
 % front page - no numbering
+\hypersetup{pageanchor=false}
+\begin{titlepage}
 \maketitle
+\thispagestyle{empty}
+\end{titlepage}
+\hypersetup{pageanchor=true}
 
 % indexes n stuff - romans
+\newpage
 \pagenumbering{roman}
 \setcounter{page}{0}
 \include{abstract}

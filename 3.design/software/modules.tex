@@ -86,15 +86,35 @@ A parameter is declared as a \texttt{os::config::Param<type>} object, and it is 
 
 
 \subsubsection{Command-line interface}
-A command-line interface (\emph{CLI} in short) is a blabla
+A command-line interface (\emph{CLI} in short) is way of interacting with a software or device by mean of entering strings of text.
 
-is a means of interacting with a computer program where the user (or client) issues commands to the program in the form of successive lines of text (command lines).
+Although they have been superseded by GUIs in daily compure use, CLIs are still a quite popular tool in embedded systems, where they find applications as configuration, monitoring or debugging tools.
+They can also be used as back-end for graphical interfaces.
 
-In this case too a CLI
+In this case too a CLI has been developed as part of the former set of modules.
+It was however based on the low-level UART drivers for the LPC1549 platform, which would have been much more daunting to port than the command interpreter itself.
+
+The currently used CLI is the one provided by ChibiOS, with hooks for running through the \emph{USB Communications Device Class}.
+The CLI configuration is composed of a list of strings representing the command names, and their associated callbacks.
+The callback functions are internally invoked by the CLI parser, which provides them with eventual parameters entered by the user, using the established \texttt{int argc, char **argv} convention.
+A third parameter is also passed, and allowing the command to output to the same stream
+
+The currently available commands are:
+\begin{description}
+    \item[\texttt{cfg}] Parameter configuration, just as the UAVCAN one
+    \item[\texttt{reboot}] Ditto
+    \item[\texttt{threads}] Overview of the existing threads along with status, priority and available memory
+    \item[\texttt{info}] Overwritten built-in command; System and application infos (ChibiOS version, compiler used, architecture, application version\dots)
+    \item[\texttt{systime}] Built-in command; shows the currently elapsed time
+    \item[\texttt{help}] Built-in command; lists all the previous entries
+\end{description}
+
+These are subject to extension as new functionalities will arise and require testing or configuration.
 
 
-\subsubsection{Location publisher}
+\subsubsection{Two-way ranger}
 As per title.
+
 
 \subsubsection{Location estimator}
 As per title.
