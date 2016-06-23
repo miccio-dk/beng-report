@@ -9,8 +9,13 @@ Their main components are:
     \item[Zubax-ChibioOS] Middleware providing a more comprehensive command-line interface over USB, watchdog support, and FLASH-based configuration storage
     \item[libuavcan] Reference implementation of the UAVCAN protocol written in C++
     \item[decadriver] APIs for controlling the decaWave products
-    \item[application code] High-level board functionalities and RTLS implementation
+    \item[Modules] High-level board functionalities and RTLS implementation
 \end{description}
+
+
+
+\fig{5cm}{sw_block.png}{Software design: structure and modules}{sw_block}
+
 
 Due to the difficulties presented at the beginning of \autoref{ch:design}, at the time of writing only the anchors software is fully developed.
 For a detailed report of the missing features and requirements, refer to \nameref{sec:test_trace}.
@@ -25,5 +30,3 @@ The following subsections will cover the shared project layout, informations and
 \input{uavcan}
 
 \input{modules}
-
-\input{threads}

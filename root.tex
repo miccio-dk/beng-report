@@ -45,15 +45,27 @@
 \newcommand{\coldot}[1][black]{\Large\textcolor{#1}{\ensuremath\bullet}}
 
 
+% dunno, it's allan's
+\pagestyle{headings}
 
 % here it starts!
 \begin{document}
 
+% front page - no numbering
 \maketitle
 
+% indexes n stuff - romans
+\pagenumbering{roman}
+\setcounter{page}{0}
 \include{abstract}
-
 \tableofcontents
+\listoffigures
+\listoftables
+
+
+% actual content - arabics
+\newpage
+\pagenumbering{arabic}
 
 \subimport{1.intro/}{0}
 

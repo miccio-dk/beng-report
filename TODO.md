@@ -44,9 +44,8 @@
       - [x] Board layer
       - [x] UAVCAN Node
       - [x] decaWave drivers
-      - [ ] Configuration manager
+      - [x] Configuration manager
       - [ ] Command line interface
-    - [ ] Threads
       - [ ] Location publisher
       - [ ] Location estimator
       - [ ] Idle task

@@ -27,7 +27,7 @@ It is composed of several parts:
     \item Configuration parameter variables, handled by the configuration manager described in the following subsection.
     \item A parameter manager, implemented as a class inheriting from \texttt{uavcan::IParamManager} and used to provide support for UAVCAN node configuration.
     \item A restart service handler, implemented as a class inheriting from \texttt{uavcan::IRestartRequestHandler} and used to provide support for UAVCAN node restart.
-    \item A ChiobiOS static thread, implemented as class inheriting from \texttt{chibios_rt::BaseStaticThread}, along with internal functions for the setup and initialization of its service providers.
+    \item A ChiobiOS static thread, implemented as class inheriting from \texttt{chibios\_rt::BaseStaticThread}, along with internal functions for the setup and initialization of its service providers.
     \item A set of helper methods to be used by other modules to notify their status.
 \end{itemize}
 
@@ -73,12 +73,28 @@ This is to avoid name mangling in function calls, which would otherwise result i
 
 
 \subsubsection{Configuration manager}
-A form of n order to support some UAVCAN high-level functionalities and 
+This module allows the callee to store and retrieve arbitrary data of numerical type in non-volatile memory, in a way similar to associative arrays or dictionaries data structures.
+The ability to manage settings beyond compile-time constants is needed in order to support some UAVCAN high-level functionalities, and finds applications in debugging and fine-tuning a device.
 
-Stores and retrieves settings of arbitrary type.
-Needed by pretty much anything.
-Will be implemented on top of EEPROM since it's the only available permanent, user-writtable memory (Flash is too, but on a page-basis).
+Initially (i.e. during the first iteration) an EEPROM-based implementation of such module was devised (information on how to find it is given in the \nameref{app:deliv} section).
+Since the STM32F405 is not equipped with it, the last sector of FLASH memory has been used and the implementation taken from the Zubax-ChibiOS set of reusable components.
 
-\subsubsection{Command line interface}
-Used for providing runtime infos and changing settings without the need of a debugger probe.
-Will read from UART.
+This implementation is quite similar to the one of own craft, i.e. both are internally based on a simple table-like structure with access time proportional to the number of elements.
+It also has built-in enforcement of parameter boundaries and, a adopt a lesser object-oriented style.
+
+A parameter is declared as a \texttt{os::config::Param<type>} object, and it is accessed with \texttt{obj.get()} and \texttt{configSet(name, value)}.
+
+
+\subsubsection{Command-line interface}
+A command-line interface (\emph{CLI} in short) is a blabla
+
+is a means of interacting with a computer program where the user (or client) issues commands to the program in the form of successive lines of text (command lines).
+
+In this case too a CLI
+
+
+\subsubsection{Location publisher}
+As per title.
+
+\subsubsection{Location estimator}
+As per title.
