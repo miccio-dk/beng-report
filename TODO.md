@@ -38,7 +38,6 @@
       - [x] RT
       - [x] configuration
     - [ ] UAVCAN
-      - [ ] Protocol
       - [ ] Library
       - [ ] Platform driver
     - [ ] Software modules

@@ -24,4 +24,8 @@ Explanation of the triangulation algorithms.
 
 \subsection{CAN Bus}
 Brief explanation of CAN protocol, its history, and principles of operation.
-May also be opted out and substituted with notions of ARM Cortex-M architecture.
+
+
+Most CAN interfaces support automatic filtering of undesired frames through acceptance filter.
+The process consists in performing a bitwise \emph{and} operation between the incoming frame ID and the acceptance mask, and then comparing the result with the content of a filter register: if these match, the frame is added to the reception queue.
+In this way, a receiving node can choose to accept frames of a specific type, or sent by a particular other node.
