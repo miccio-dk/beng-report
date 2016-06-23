@@ -1,13 +1,129 @@
 % !TEX root = ../../root.tex
-\subsection{UAVCAN}
+\subsection{UAVCAN}\label{subsec:uavcan}
+UAVCAN is a lightweight protocol aimed to provide fast and reliable communication within a drone peripherals.
 
+A UAVCAN network is composed of a series of nodes, each one identified by a unique ID.
+Each node is independent from the others and require no master/controller node or host computer.
+Communication between the nodes is called \emph{transfer} and can occur through one of these two paradigms: message broadcasting (publisher-subscriber logic) or service invocation (request-response logic).
 
+A CAN frame is composed of an ID and a payload.
+The payload section contains the encoded message data only, so all the relevant meta-data (source node, message type, destination node in case of service request, etc\dots) must figure in the frame ID.
 
-\subsubsection{Protocol}
-Description and explanation of the protocol (only uppermost layers).
+\fig{10cm}{uc_frm_id.png}{UAVCAN protocol: Frame ID formats}{uc_frm_id}
+
+\autoref{fig:uc_frm_id} shows the arrangement of the frame ID for different transfer types.
+Although UAVCAN frame IDs are 29 bits in size (\emph{CAN 2.0B}), its bus can be shared with protocols using the former 11 bits format (\emph{CAN 2.0A}).
+\emph{Anonymous message frames} are those sent by nodes which do not have a default node ID and have not been assigned one yet.
+In order to avoid CAN collision deadlock, the discriminator section has to be filled with random data.
+
+\fig{10cm}{uc_frm_pl.png}{UAVCAN protocol: Payload format}{uc_frm_pl}
+
+The payload structure is the same regardless of transfer type.
+In single-frame transfers, the \emph{start of transfer} and \emph{end of transfer} bits shown in \autoref{fig:uc_frm_pl} are both set to one.
+
+Since each transfer may contain up to eight bytes of data per frame, multi-frame transfers are also available.
+In this case, the first two bytes of the first frame will contain the CRC of the complete payload, and the bit-flags in the tail byte are to be set accordingly.
+The \emph{toggle} bit is set to 0 for even frames and 1 for odd ones.
+The \emph{transfer ID} bits contain an incremental transfer counter, and its value must be the same for each frame of a given transfer.
+
+Messages and services can be standard or vendor-specific.
+The standard ones are divided in \emph{protocol} and \emph{equipment}, with the former enabling UAVCAN-related features and the latter providing data definitions for commonly used devices like navigation systems, airspeed sensors, and so forth.
+
+Compliant node are only required to broadcast a heartbeat message on a regular basis to signal their presence.
+The implementation of other standard functionalities is not mandatory but recommended.
+For instance, nodes that do not implement \texttt{uavcan.protocol.GlobalTimeSync}-enabled time synchronization are condemned to experience time drift.
+Here follows a table of UAVCAN high-level functions along with the messages/service through it is carried out, and --- if available --- the use case(s) or requirement(s) it fulfills.
+
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} m{10em} >{\ttfamily}m{15em} m{5em} >{\small}m{10em} @{}}
+    \toprule
+    Function                   & \normalfont{Service/Message definition} & Applies to & \normalfont{Notes} \\
+    \midrule
+    Node status reporting      & uavcan.protocol.NodeStatus &  & Mandatory \\
+    Node discovery             & uavcan.protocol.GetNodeInfo &  & Strongly suggested \\
+    Time synchronization       & uavcan.protocol.GlobalTimeSync &  & Needed by publishers of timestamped data \\
+    Node configuration         & uavcan.protocol.param.GetSet uavcan.protocol.param.ExecuteOpcode &  &  \\
+    Node restart               & uavcan.protocol.RestartNode &  & Recommended, may be used to refresh node settings \\
+    File transfer              & uavcan.protocol.file.GetInfo uavcan.protocol.file.GetDirectoryEntryInfo
+                                uavcan.protocol.file.Delete uavcan.protocol.file.Read
+                                uavcan.protocol.file.Write uavcan.protocol.file.EntryType
+                                uavcan.protocol.file.Error uavcan.protocol.file.Path &  &  \\
+    Firmware update            & uavcan.protocol.file.BeginFirmwareUpdate &  & Requires \emph{File transfer} \\
+    Debug features             & uavcan.protocol.debug.KeyValue uavcan.protocol.debug.LogMessage
+                                uavcan.protocol.debug.LogLevel  &  & Lowest-priority messages \\
+    Command shell access       & uavcan.protocol.AccessCommandShell  &  &  \\
+    Panic mode                 & uavcan.protocol.Panic &  &  \\
+    Dynamic node ID allocation & uavcan.protocol.dynamic\_node\_id.Allocation  &  & Uses anonymous transfers \\
+    \bottomrule
+\end{tabular}
+\caption{UAVCAN protocol: high-level functionalities}\label{tab:uc_func}
+\end{table}
+
+As part of the \emph{Node configuration} function, the following parameters should be available by default:
+\begin{itemize}
+    \item Data type ID
+    \item Message publication period
+    \item Transfer priority
+    \item Node ID
+    \item CAN bus bit rate
+    \item Instance ID
+\end{itemize}
+
 
 \subsubsection{Library}
-Explanation of the different implementations and functionalities of the reference one.
+UAVCAN provides a software stack written in C++ called \texttt{libuavcan}.
+It consists in a portable, cross-platform library, a package of standard message definitions written in a custom data definition language, and a code generator that converts these into header files for application-level inclusion.
+
+Libuavcan depends on only a very limited portion of the standard C++ library, making it compilable on most moder compilers and embeddable in microcontroller architectures and full-fledged systems alike.
+Through compile-time configuration, it gives the possibility of ruling out processing or memory-costly or parts, such as exception handling, run-time type identification (RTTI), and dynamic memory allocation.
+The latter is a desirable feature on many embedded and real-time system.
+
+A major characteristic of libuavcan is that it offers built-in support for all of the high-level functions presented above.
+These can be individually added to a project by including the relevant header files from \texttt{uavcan/protocol/} and initializing the service providers.
+Although the recommended/suggested functions are included by default, the developer has the possibility of disabling them through the \texttt{UAVCAN\_TINY} variable, in order to further reduce the memory footprint.
+This is however only recommended for deeply embedded systems with severe memory constraints, as it will also remove support for transmission diagnostics, event logging, and memory pool allocation.
+
+For the purpose of this project, the library has been configured to compile with \texttt{C++11} support and all suggested functions available.
+All other settings have been kept to their default value.
+
+Depending on the development environment used, the drivers and library can be built using \texttt{cmake}, \texttt{make}, or any IDE-specific build system, as long as the necessary source files are present and the libuavcan \text{include} folder added to the inclusion path.
+
 
 \paragraph{Platform driver}
-Description of driver interface, microcontroller CAN interface, and necessary adaptation.
+The library is not bounded to any specific CAN interface, and relies on a platform-dependent driver.
+As of today, the officially supported platforms are:
+\begin{itemize}
+    \item \emph{Linux} (requires \texttt{libposix4} and \texttt{SocketCAN}), most comprehensive driver
+    \item \emph{POSIX}, only abstract interface
+    \item \emph{LPC11C24}, minimal implementation, no multi-threading
+    \item \emph{STM32}, middle-ground support
+\end{itemize}
+
+The drivers are responsible for implementing the low-level, platform-dependent functions, which are abstracted by the following C++ classes:
+\begin{itemize}
+    \item \texttt{uavcan::ISystemClock}, providing monotonic clock (invariant) and network clock (synchronized and adjusted across the nodes)
+    \item \texttt{uavcan::ICanIface}, providing \texttt{send} and \texttt{receive} functions, as well as CAN filters configuration
+    \item \texttt{uavcan::ICanDriver}, which acts as a container for supporting multiple redundant interfaces.
+\end{itemize}
+
+The libuavcan driver for STM32 has no third-party dependencies (except if RTOS support is enabled).
+It supports all of the major capabilities, including redundant CAN interfaces (whenever available on the MCU), clock synchronization (through general-purpose timer), and has bindings for several RTOS (ChibiOS, NuttX, and FreeRTOS).
+
+The driver too is configurable via preprocessor definitions.
+The ones used in the project are reported below.
+
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} >{\ttfamily}m{10em} m{5em} m{15em} @{}}
+    \toprule
+    \normalfont{Parameter}              & \normalfont{Value}    & Description \\
+    \midrule
+    UAVCAN\_STM32\_CHIBIOS              & 1     & Symbol defining the platform used; mandatory \\
+    UAVCAN\_STM32\_TIMER\_NUMBER        & 7     & Specifies hardware time used for clock; mandatory \\
+    UAVCAN\_STM32\_NUM\_IFACES          & 1     & Number of available CAN interfaces \\
+    UAVCAN\_STM32\_IRQ\_PRIORITY\_MASK  & 4     & Priority level of driver-related interrupts \\
+    \bottomrule
+\end{tabular}
+\caption{UAVCAN driver: compile-time settings}\label{tab:uc_drv_sett}
+\end{table}

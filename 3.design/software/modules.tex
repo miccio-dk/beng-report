@@ -1,16 +1,80 @@
 % !TEX root = ../../root.tex
 \subsection{Software modules}
+The application-level code is contained in the \texttt{src} directory.
+In compliance with NONFUNCTREQ, it is divided into modules based on the underlying hardware component they manage, or the high-level function they implement.
+
+Each module is implemented as a C++ class or namespaced collection of functions, depending on what seemed most semantically reasonable.
+They may also include or depend on third-party libraries or other modules.
 
 
 
 \subsubsection{Board layer}
+This module manages some of the generic device functions and provides useful hooks to commonly used functions.
+It is not wrapped in a class, due to the inherit \emph{static}-ness of its functions (no object to refer to and state preserved).
+
+It is divided into three namespaces:
+\begin{description}
+    \item[\texttt{led}] Functions to set the color of the on-board RGB LED. Since the LED is used by several modules for signaling their events and state, there are also functions for setting and clearing individual sub-pixels.
+    \item[\texttt{sys}] Helpers for system functionalities: low-level initialization (ChibiOS internals and HAL, watchdog, configuration manager), reboot, and fault state handler.
+    \item[\texttt{id}] Type-safe functions for sourcing and setting (whenever allowed) identification data: vendor-assigned Unique ID, device signature, hardware platform version (the latter being only a stub)
+\end{description}
+
+
+\subsubsection{UAVCAN Node}
+The node module handles most of the high-level functions presented in the \nameref{subsec:uavcan} section.
+It is composed of several parts:
+\begin{itemize}
+    \item Configuration parameter variables, handled by the configuration manager described in the following subsection.
+    \item A parameter manager, implemented as a class inheriting from \texttt{uavcan::IParamManager} and used to provide support for UAVCAN node configuration.
+    \item A restart service handler, implemented as a class inheriting from \texttt{uavcan::IRestartRequestHandler} and used to provide support for UAVCAN node restart.
+    \item A ChiobiOS static thread, implemented as class inheriting from \texttt{chibios_rt::BaseStaticThread}, along with internal functions for the setup and initialization of its service providers.
+    \item A set of helper methods to be used by other modules to notify their status.
+\end{itemize}
+
+The UAVCAN functions initialized and managed by the node are:
+\begin{itemize}
+    \item Node status reporting
+    \item Node discovery
+    \item Data type info provider
+    \item Dynamic node ID allocation
+    \item Node configuration
+    \item Time synchronization (as slave)
+    \item Node logging
+    \item Node restart
+\end{itemize}
+
+A component status manager takes care of caching the status of the relevant sub-modules and making it available to UAVCAN built-in status provider.
+Each component is responsible of setting its own initialization and health status.
+In order to properly notify problems, the health status of the most compromised component is used as the overall health status, and the initialization status will not be suppressed until all components are initialized.
+
+The component status manager is not externally accessible and its methods are relayed into the node class to allow for easy back-end swapping, and to keep interdependency at bay.
+The same applies to the UAVCAN derived classes and ChibiOS thread, which are all encapsulated in an anonymous namespace.
 
 
 \subsubsection{decaWave drivers}
+This module contains the software APIs for managing the DWM1000 device as provided by decaWave, with minor adjustments and rewritten porting layer.
 
-The bus configuration (sampling polarity and phase) can be customized by manipulating
+The platform-dependent functions are conveniently detached from the rest of the code, and implemented in the following files:
+\begin{description}
+    \item[\texttt{deca\_mutex.c}] Functions for atomic operations (e.g. during SPI transfers)
+    \item[\texttt{deca\_sleep.c}] Function implementing delay
+    \item[\texttt{port.h}] Declaration of peripheral-related functions: SPI communication and clock frequency setting, external interrupt channels, pin configuration
+    \item[\texttt{port.c}] Implementation of the aforementioned functions
+\end{description}
+
+All of the described code has been reimplemented using ChibiOS-specific HAL and Rt calls.
+While the first two functionalities could be tightly mapped to ChibiOS equivalents, the same was not possible with the latter files, and  some of the generic initialization operations have been moved out of the decaWave port layer and into the board module.
+As of today, only polling-based communication with the DWM1000 is supported.
+
+Since the library is written in C, a common practice would be to wrap all the necessary API methods, static variables, and headers in a C++ class.
+However, due to the staggering amount of functions and the disappointing previous results of such attempt, it has been chosen to employ them as-is, and limit their scope to the ranging module.
+In order to be able to use them from the C++ ranging class, the relevant header files have to be surrounded by the \texttt{extern \"C\"} directive.
+This is to avoid name mangling in function calls, which would otherwise result in linker errors.
+
 
 \subsubsection{Configuration manager}
+A form of n order to support some UAVCAN high-level functionalities and 
+
 Stores and retrieves settings of arbitrary type.
 Needed by pretty much anything.
 Will be implemented on top of EEPROM since it's the only available permanent, user-writtable memory (Flash is too, but on a page-basis).

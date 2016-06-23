@@ -37,16 +37,16 @@
       - [x] HAL
       - [x] RT
       - [x] configuration
-    - [ ] UAVCAN
-      - [ ] Library
-      - [ ] Platform driver
+    - [x] UAVCAN
+      - [x] Library
+        - [x] Platform driver
     - [ ] Software modules
-      - [ ] Board layer
-      - [ ] decaWave drivers
+      - [x] Board layer
+      - [x] UAVCAN Node
+      - [x] decaWave drivers
       - [ ] Configuration manager
       - [ ] Command line interface
     - [ ] Threads
-      - [ ] UAVCAN Node
       - [ ] Location publisher
       - [ ] Location estimator
       - [ ] Idle task

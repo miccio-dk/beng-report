@@ -12,5 +12,7 @@ The on-chip crystal trimming circuit and temperature sensor allows for dynamic t
 
 Interfacing with the device is achieved through an SPI bus that can run at up to \SI{20}{\mega\hertz}.
 Other data connections include the interrupt (IRQ) and reset (RST) signal.
+The bus configuration (sampling polarity and phase) can be customized by manipulating the GPIO pins, which are also routed to the microcontroller.
+
 
 In laying out the board for PCB manufacturing, attention has been paid towards the guidelines included in the datasheet, which suggests a keep-out area of \SI{1}{\centi\meter} around the antenna section of the module, plus a board-wide ground plane.
