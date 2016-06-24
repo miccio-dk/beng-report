@@ -6,26 +6,123 @@ This section will present the theoretical aspects of the technologies employed i
 \subsection{Ultra-wideband}
 Ultra-wideband (UWB in short) is a radio technology that use a very low energy level for short-range, high-bandwidth communications over a large portion of the radio spectrum.
 
-% http://www.informit.com/articles/article.aspx?p=433381&seqNum=2
 
 Although this technique has been know for for decades, is a relatively new entry in the RTLS field \cite{uwb1}, with the first affordable development kits having entered the market in the last few years.
 It gained immediate popularity due to its advantages: blablabla
 
 
+Traditional narrowband communications systems modulate continuous-waveform (CW) RF signals with a specific carrier frequency to transmit and receive information. A continuous waveform has a well-defined signal energy in a narrow frequency band that makes it very vulnerable to detection and interception. Figure 1-2 represents a narrowband signal in the time and frequency domains.
+
+
+      01fig02.gif
+
+Figure 1-2 A narrowband signal in (a) the time domain and (b) the frequency domain
+
+As mentioned in Section 1.2, UWB systems use carrierless, short-duration (picosecond to nanosecond) pulses with a very low duty cycle (less than 0.5 percent) for transmission and reception of the information. A simple definition for duty cycle is the ratio of the time that a pulse is present to the total transmission time. Figure 1-3 and Equation 1-1 represent the definition of duty cycle.
+
+Low duty cycle offers a very low average transmission power in UWB communications systems. The average transmission power of a UWB system is on the order of microwatts, which is a thousand times less than the transmission power of a cell phone! However, the peak or instantaneous power of individual UWB pulses can be relatively large,
+      [2]
+     but because they are transmitted for only a very short time (Ton < 1 nanosecond), the average power becomes considerably lower. Consequently, UWB devices require low transmit power due to this control over the duty cycle, which directly translates to longer battery life for handheld equipment. Since frequency is inversely related to time, the short-duration UWB pulses spread their energy across a wide range of frequencies—from near DC to several gigahertz (GHz)—with very low power spectral density (PSD).
+
+
+
+
 \subsection{Ranging algorithm}
-There can be several possible two-way ranging schemes, blabla
-% http://bespoon.com/two-way-ranging/
-% https://en.wikipedia.org/wiki/Symmetrical_double-sided_two-way_ranging
+An overview of different ranging techniques is hereby presented and discussed.
+The techniques analyzed here mainly strive to calculate the most accurate possible \emph{time of flight} (TOF), which can then be converted into distance with the following trivial equation:
+\begin{equation}
+    \textit{distance} = \textit{ToF} \times c
+\end{equation}
+The devices involved in the process will be referred to as initiator (\(\mathbf{I}\)) and responder (\(\mathbf{R}\)).
+Furthermore, only solutions that can cope with unsynchronized (i.e. not sharing the same base clock) devices are taken into consideration.
 
-Their role is to respond to the polling message sent by the tags after predetermined delay. This response message constains the polling message reception timestamp and its own transmission timestamp.
+\fig{5cm}{twr.png}{Two-way ranging: different approaches}{twr}
 
-\subsection{Position estimation}
-Explanation of the triangulation algorithms.
+\subsubsection{Single-sided 2WR}
+This is the most straightforward approach:
+\begin{enumerate}
+    \item \(\mathbf{I}\) sends poll message and notes time \(T_{poll_{TX}}\)
+    \item \(\mathbf{R}\) receives poll message and notes time \(T_{poll_{RX}}\)
+    \item After an arbitrary time, \(\mathbf{R}\) sends response message and notes time \(T_{resp_{TX}}\)
+    \item \(\mathbf{I}\) receives response message and notes time \(T_{resp_{RX}}\)
+\end{enumerate}
+Assuming that \(\mathbf{R}\) includes all its recorded data into the response message, \(\mathbf{I}\) can assume that:
+\begin{equation}
+    \textit{ToF} = \frac{(T_{resp_{RX}} - T_{poll_{TX}}) - (T_{resp_{TX}} - T_{poll_{RX}})}{2}
+\end{equation}
+One of the major shortcomings of this scheme is that clock frequency differences between the two devices will cause vast drifts over the tiniest delay.
+
+\subsubsection{Double-sided 2WR}
+This method improves upon the previous ones by trying to compensate for the introduced drift:
+\begin{enumerate}
+    \item \(\mathbf{I}\) sends poll message and notes time \(T_{poll_{TX}}\)
+    \item \(\mathbf{R}\) receives poll message and notes time \(T_{poll_{RX}}\)
+    \item After an arbitrary time, \(\mathbf{R}\) sends response message and notes time \(T_{resp_{TX}}\) as well as \(T_{reply1} = T_{resp_{TX}} - T_{poll_{RX}}\)
+    \item \(\mathbf{I}\) receives response message and notes time \(T_{resp_{RX}}\) as well as \(T_{round1} = T_{resp_{RX}} - T_{poll_{TX}}\)
+    \item After an arbitrary time, \(\mathbf{I}\) sends final message and notes time \(T_{final_{TX}}\) as well as \(T_{reply2} = T_{final_{TX}} - T_{resp_{RX}}\)
+    \item \(\mathbf{R}\) receives response message and notes time \(T_{final_{RX}}\) as well as \(T_{round2} = T_{final_{RX}} - T_{resp_{TX}}\)
+\end{enumerate}
+Assuming that \(\mathbf{R}\) includes the calculated time intervals in the response message, \(\mathbf{I}\) can assume that:
+\begin{equation}
+    \textit{ToF} = \frac{T_{round1} \times T_{round2} - T_{reply1} \times T_{reply2}}{T_{round1} + T_{round2} + T_{reply1} + T_{reply2}}
+\end{equation}
+Although this method is known to be more reliable than the previous, it requires that ranging measurements are transmitted through the radio, which depending on the application may not be desirable.
+
+\subsubsection{Single-sided 2WR with drift compensation}
+This method provides drift correction whilst maintaining the range computation on the initializer:
+\begin{enumerate}
+    \item \(\mathbf{I}\) sends poll message and notes time \(T_{poll_{TX}}\)
+    \item \(\mathbf{R}\) receives poll message
+    \item After an arbitrary time, \(\mathbf{R}\) sends response message
+    \item \(\mathbf{I}\) receives response message and notes time \(T_{resp1_{RX}}\)
+    \item After the same amount of time, \(\mathbf{R}\) sends another response message
+    \item \(\mathbf{I}\) receives response message and notes time \(T_{resp2_{RX}}\)
+\end{enumerate}
+
+In this way \(\mathbf{I}\) need not use any data based on other clocks.
+The equation becomes:
+\begin{equation}
+    \textit{ToF} = \frac{(T_{resp2_{RX}} - T_{poll_{TX}}) - 2 \times (T_{resp2_{RX}} - T_{resp1_{TX}})}{2}
+\end{equation}
+
+
+\subsection{Trilateration}
+\emph{Trilateration} consists in determining the location of an object by measuring its distance from reference points.
+With the advent of electronic means of measuring distances, this technique found widespread usage in the fields of geolocalization, navigation, and surveying.
+In particular, GPS technology leverages on trilateration for providing its services.
+
+The process of trilateration can be easily visualized in two dimensions by considering the circle projected by the set of points equidistant from a given reference.
+The radius of such circle is the distance between an anchor whose location is known (the center of the circle) and a tag whose location is to be found.
+
+\fig{5cm}{trilat.png}{Trilateration: two-dimensional example \cite{}}{trilat}
+
+Adding another anchor and projecting its distance from the tag brings down the possible location to two points.
+In the ideal case, a third anchor would project a circle intercepting precisely in one of these points.
+However, this is rarely the case and may simply be unfeasible in case of a moving object (as the application of this project implies). \nameref{fig:trilat} shows however that an educated estimate can still be achieved.
+
 
 \subsection{CAN Bus}
-Brief explanation of CAN protocol, its history, and principles of operation.
+A \emph{Controller Area Network} (CAN) bus is a standard designed to allow microcontrollers, sensors, and other devices to communicate with each other without a host computer.
+It was designed in 1983 by \emph{Robert Bosch GmbH} for automotive usage, but eventually found applications in many other contexts.
 
+A CAN network is made up of nodes connected to each other through a two-wire bus.
+The wires form a differential pair of \SI{120}{\ohm} nominal impedance.
+Each node is capable of sending or receiving messages, properly called called frames.
+A frame consists of an ID which can be \SI{11}{\bit} or \SI{29}{\bit} long, and up to eight data bytes.
+
+CAN transmissions uses a lossless arbitration method in case of multiple nodes simultaneously attempting to send data.
+Transmitted bit can be recessive or dominant.
+If two such bits are beind transmitted at the same time, the node transmitting the recessive bits suspends its operation and reattempts the transfer after a given number of clock cycles, effectively implementing a prioritized communication system.
+For this strategy to work, each node on a CAN network must agree on a bit rate and is required to sample every bit of data at the same time as the others.
+
+Due to the lack of a shared clock signal, a synchronization mechanism is employed.
+\emph{Hard synchronization} occurs after a recessive-to-dominant bit transition, and simply restart the timing from there.
+Each bit is divided into time intervals called \emph{quanta}, and the first quantum is assigned to the so-called synchronization segment.
+Whenever a recessive-to-dominant bit transition occurs outside of the synchronization segment, the sampling time is moved accordingly.
+To ensure enough transitions to perform the above procedure, a bit of opposite polarity is inserted after five consecutive equal bits, through a process called \emph{bit stuffing}.
+
+\fig{5cm}{can_smpl.png}{CAN Bus: bit sampling}{can_smpl}
 
 Most CAN interfaces support automatic filtering of undesired frames through acceptance filter.
-The process consists in performing a bitwise \emph{and} operation between the incoming frame ID and the acceptance mask, and then comparing the result with the content of a filter register: if these match, the frame is added to the reception queue.
+The process consists in performing a bitwise \emph{and} operation between the incoming frame ID and an acceptance bit-mask, and then comparing the result with the content of a filter register: if these match, the frame is added to the reception queue.
 In this way, a receiving node can choose to accept frames of a specific type, or sent by a particular other node.

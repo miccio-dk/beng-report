@@ -1,6 +1,5 @@
 \documentclass[a4paper, final]{report}
 
-\usepackage{hyperref}
 \usepackage{import}
 \usepackage{graphicx}
 \usepackage{array}
@@ -11,6 +10,7 @@
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage[binary-units]{siunitx}
+\usepackage{hyperref}
 
 
 % top matter
@@ -59,12 +59,11 @@
 \begin{document}
 
 % front page - no numbering
-\hypersetup{pageanchor=false}
+\pagenumbering{Alph}
 \begin{titlepage}
 \maketitle
 \thispagestyle{empty}
 \end{titlepage}
-\hypersetup{pageanchor=true}
 
 % indexes n stuff - romans
 \newpage

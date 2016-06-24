@@ -1,14 +1,80 @@
 % !TEX root = ../root.tex
 \section{Requirements specification}\label{sec:reqs}
+The \emph{software requirements specification} is the formal description of the system to be developed, thoroughly describing what the product is --- and is not --- expected to do.
+It also helps assessing the extent of the endeavor in terms of workload, cost, and other resources.
+The requirements are commonly laid out in agreement with the client, and provide the basis upon which the product or project is evaluated.
 
+As far as this project is concerned, the company has not set any particular requirements apart from those implied in the project name.
+The list of requirements is therefore mostly based on former knowledge, common sense and best practices within the industry,
 
 
 \subsection{Functional requirements}\label{subsec:req_func}
-As per definition, they ``define specific behavior or functions'', and are the basis for the tests.
+This section defines specific behaviors or functionalities, and is the basis for the tests.
+Requirements introduced by the modal verb \emph{shall} indicate mandatory conditions, whilst those introduced by the modal verb \emph{may} indicate optional features.
+
+For conciseness and clarity sake, along with tag and anchor, the concept of \emph{device}is also introduced.
+Requirements specified for the device are to be fulfilled by both elements.
+
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} m{6em} >{\small}l @{}}
+    \toprule
+    ID      & \normalfont{Description} \\
+    \midrule
+    SRS.F.HW.1    & The tag shall include a UAVCAN-compliant interface \\
+    SRS.F.HW.2    & The tag shall be able to be powered through CAN \\
+    SRS.F.HW.3    & The device shall be able to be powered through USB \\
+    SRS.F.HW.4    & The tag shall provide visual feedback for errors and critical states \\
+    SRS.F.HW.5    & The tag shall provide visual feedback for CAN activity \\
+    SRS.F.HW.5    & The tag shall be able to fit inside a typical copter drone \\
+    \midrule
+    SRS.F.SW.1    & The tag shall be able to notify its presence and status in the UAVCAN bus \\
+    SRS.F.SW.2    & The tag shall be able to obtain a node ID from a dynamic node ID allocator server \\
+    SRS.F.SW.3    & The tag shall be able to respond to node discovery requests \\
+    SRS.F.SW.4    & The tag shall be able to reboot when requested by another node \\
+    SRS.F.SW.5    & The tag shall be able to synchronize its time with a UAVCAN master clock node \\
+    SRS.F.SW.6    & The tag shall be able to emit debugging information and logs, if requested \\
+    SRS.F.SW.7    & The tag shall be able to be configured through UAVCAN \\
+    SRS.F.SW.8    & The tag shall be able to discover anchors in the proximity \\
+    SRS.F.SW.9    & The tag shall be able to periodically poll the anchors for new ranging samples \\
+    SRS.F.SW.10   & The tag shall be able to update its location estimation when a new sample is available \\
+    SRS.F.SW.11   & The tag shall be able to publish its location data through the UAVCAN bus \\
+    SRS.F.SW.12   & The anchors shall be able to respond to tag discovery request \\
+    SRS.F.SW.12   & The anchors shall be able to respond to tag ranging requests \\
+    SRS.F.SW.12   & The device shall be able to be configured through USB \\
+    SRS.F.SW.12   & The device shall be able to be configured through USB \\
+    SRS.F.SW.13   & The tag may be able to update its firmware through the UAVCAN bus \\
+    SRS.F.SW.14   & The tag may use the onboard sensors to refine the location data \\
+    SRS.F.SW.14   & The device may implement IEEE 802.15.4 frame format for communication \\
+    \bottomrule
+\end{tabular}
+\caption{Software requirements specification: functional requirements}\label{tab:srs_fun}
+\end{table}
+
 
 \subsection{Non functional requirements}\label{subsec:req_nf}
-Other charateristics and qualities of the system.
+This section specifies desired characteristics and qualities of the system.
+
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} m{6em} >{\small}l @{}}
+    \toprule
+    ID      & \normalfont{Description} \\
+    \midrule
+    SRS.NF.SW.1    & The source shall be writte inn C++ \\
+    SRS.NF.SW.2    & The source shall strive towards modularity \\
+    SRS.NF.SW.3    & The source shall not allocate or make us heap-based memory \\
+    SRS.NF.SW.4    & The source shall follow a consistent format style \\
+    SRS.NF.SW.5    & The source shall be concisely yet extensively documented \\
+    SRS.NF.SW.6    & The released documentation shall be written in English \\
+    SRS.NF.SW.7    & The source may be supported by other toolchains and compilers  \\
+    \bottomrule
+\end{tabular}
+\caption{Software requirements specification: non-functional requirements}\label{tab:srs_nfun}
+\end{table}
+
 
 \subsection{Use cases}\label{subsec:u_cases}
 This section describes how the actors can interact with the system.
-For each there should be: brief description, actors, preconditions, main flow, post conditions, remarks / alternative flows.
+
+\fig{5cm}{use_case.png}{CAN Bus: bit sampling}{use_case}

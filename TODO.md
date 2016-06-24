@@ -1,20 +1,20 @@
 - [x] Introduction
-  - [ ] Rationale
+  - [x] Rationale
     - [x] RTLS
     - [x] UAVCAN
   - [x] Company description
   - [x] Problem formulation
   - [x] System description
 - [x] Problem analysis
-  - [ ] Requirements specification
-    - [ ] Functional requirements
-    - [ ] Non functional requirements
+  - [x] Requirements specification
+    - [x] Functional requirements
+    - [x] Non functional requirements
     - [ ] Use cases
   - [x] Theoretical principles
     - [ ] Ultra-wideband
-    - [ ] Ranging algorithm
-    - [ ] Position estimation
-    - [ ] CAN Bus
+    - [x] Ranging algorithm
+    - [x] Trilateration
+    - [x] CAN Bus
   - [x] Risk management
     - [x] Description
     - [x] Overview
