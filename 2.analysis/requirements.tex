@@ -40,12 +40,11 @@ Requirements specified for the device are to be fulfilled by both elements.
     SRS.F.SW.10   & The tag shall be able to update its location estimation when a new sample is available \\
     SRS.F.SW.11   & The tag shall be able to publish its location data through the UAVCAN bus \\
     SRS.F.SW.12   & The anchors shall be able to respond to tag discovery request \\
-    SRS.F.SW.12   & The anchors shall be able to respond to tag ranging requests \\
-    SRS.F.SW.12   & The device shall be able to be configured through USB \\
-    SRS.F.SW.12   & The device shall be able to be configured through USB \\
-    SRS.F.SW.13   & The tag may be able to update its firmware through the UAVCAN bus \\
-    SRS.F.SW.14   & The tag may use the onboard sensors to refine the location data \\
-    SRS.F.SW.14   & The device may implement IEEE 802.15.4 frame format for communication \\
+    SRS.F.SW.13   & The anchors shall be able to respond to tag ranging requests \\
+    SRS.F.SW.14   & The device shall be able to be configured through USB \\
+    SRS.F.SW.15   & The tag may be able to update its firmware through the UAVCAN bus \\
+    SRS.F.SW.16   & The tag may use the onboard sensors to refine the location data \\
+    SRS.F.SW.17   & The device may implement IEEE 802.15.4 frame format for communication \\
     \bottomrule
 \end{tabular}
 \caption{Software requirements specification: functional requirements}\label{tab:srs_fun}
@@ -61,11 +60,11 @@ This section specifies desired characteristics and qualities of the system.
     \toprule
     ID      & \normalfont{Description} \\
     \midrule
-    SRS.NF.SW.1    & The source shall be writte inn C++ \\
+    SRS.NF.SW.1    & The source shall be written in C++ \\
     SRS.NF.SW.2    & The source shall strive towards modularity \\
     SRS.NF.SW.3    & The source shall not allocate or make us heap-based memory \\
     SRS.NF.SW.4    & The source shall follow a consistent format style \\
-    SRS.NF.SW.5    & The source shall be concisely yet extensively documented \\
+    SRS.NF.SW.5    & The source shall be properly documented \\
     SRS.NF.SW.6    & The released documentation shall be written in English \\
     SRS.NF.SW.7    & The source may be supported by other toolchains and compilers  \\
     \bottomrule
@@ -76,5 +75,9 @@ This section specifies desired characteristics and qualities of the system.
 
 \subsection{Use cases}\label{subsec:u_cases}
 This section describes how the actors can interact with the system.
+Since the product is meant to be used in an unmanned and autonomous environment, the definition of actor becomes quite loose.
+The identified actors are the AUV autopilot and the final user.
 
-\fig{5cm}{use_case.png}{CAN Bus: bit sampling}{use_case}
+As most of the identified use case are tightly couple with a functional requirements, they have been grouped and cross-referenced.
+
+\fig{10cm}{use_case.png}{Software requirements specification: use cases}{use_case}

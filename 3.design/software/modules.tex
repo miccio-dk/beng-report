@@ -162,3 +162,12 @@ Other schemes may require different packages or data, in accordance the discussi
 
 
 \subsubsection{Location estimator}
+The location estimator is the other unimplemented module of the project.
+The implementation proposed in the following paragraphs will be provided for reference purposes.
+
+Just like the node module discussed above, this module covers several roles:
+\begin{itemize}
+    \item Manage the Two-way ranger, orchestrating its initial pairing and subsequent communication with the anchors
+    \item Compute the current device location, based on the ranging samples
+    \item Publish the result over the UAVCAN network
+\end{itemize}

@@ -1,5 +1,43 @@
 % !TEX root = ../root.tex
 \section{Acceptance tests}\label{sec:test_trace}
+For these tests, the following tools have been used:
+\begin{itemize}
+    \item UAVCAN to DE-9 connector adapter
+    \item CAN bus to USB probe
+    \item STLinkV2 debugger probe
+    \item \texttt{uavcan\_monitor} utility
+    \item \texttt{uavcan\_nodetool} utility
+    \item UAVCAN \texttt{gui\_tool} utility
+\end{itemize}
 
-Detailed view of the hardware-related tests.
-Should show the following: purpose (which requirements it tests), preconditions, test actions wth relative expected results.
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} >{\small}l >{\small}m{16em} >{\small}l  >{\small}m{12em}  >{\small}m{6em} @{}}
+    \toprule
+    \normalfont{ID} &      \normalfont{Description}                               & \normalfont{Related SRS}      & \normalfont{Espected result}    & \normalfont{Outcome} \\
+    \midrule
+    T.HW.1  & Connect to a UAVCAN node capable of powering the bus  & SRS.F.HW.1-2-5   & Tag boots up, LED blinks repeatedly upon transmission  & Passed \\ \addlinespace
+    T.HW.2  & Connect to PC through USB port             & SRS.F.HW.3       & Tag boots up, LED blinks repeatedly upon transmission  & Passed \\ \addlinespace
+    T.HW.3  & Connect to PC through debugger header, manually cause fault state & SRS.F.HW.4       & LED blinks in red, UAVCAN status reports \texttt{CRITICAL}  & Passed \\ \addlinespace
+    \midrule
+
+    T.SW.1  & Connect to PC through CAN adapter, launch \texttt{uavcan\_monitor} & SRS.F.SW.1       & Node shown on screen & Passed \\ \addlinespace
+    T.SW.2  & Set default node ID to 0, connect to PC through CAN adapter, launch \texttt{gui\_tool}, set up dynamic node ID allocation server & SRS.F.SW.2       & Node recognized and assigned & Passed \\ \addlinespace
+    T.SW.3  & Connect to PC through CAN adapter, launch \texttt{uavcan\_nodetool}, send info command & SRS.F.SW.3       & Dialog screen showing extended information appears  & Passed \\ \addlinespace
+    T.SW.4  & Connect to PC through CAN adapter, launch \texttt{uavcan\_nodetool}, send restart command & SRS.F.SW.4       & Node temporarily disappears from list, then reappears  & Passed \\ \addlinespace
+    T.SW.5  & Connect to device implementing time synchronization master (e.g. GPS module) & SRS.F.SW.5       &   & Not verified \\ \addlinespace
+    T.SW.6  &  & SRS.F.SW.6       &   & Not verified \\ \addlinespace
+    T.SW.7  &  Connect to PC through CAN adapter, launch \texttt{uavcan\_nodetool}, send several cfg commands, reboot board and verify paramenters & SRS.F.SW.7       & Parameter should reflect last change  & Failed - Parameters not retained \\ \addlinespace
+
+    T.SW.8  & Connect to PC through debugger header,  & SRS.F.SW.8       &   & Failed - feature not implemented \\ \addlinespace
+    T.SW.9  &  & SRS.F.SW.9       &   & Failed - feature not implemented \\ \addlinespace
+    T.SW.10 &  & SRS.F.SW.10       &   & Failed - feature not implemented \\ \addlinespace
+    T.SW.11 &  & SRS.F.SW.11       &   & Failed - feature not implemented \\ \addlinespace
+    T.SW.12 &  & SRS.F.SW.12       &   & Failed - feature not implemented \\ \addlinespace
+    T.SW.13 &  & SRS.F.SW.13       &   & Failed - feature not implemented \\ \addlinespace
+    T.SW.14 & Connect to PC through USB port, open serial emulator, send several cfg commands, reboot board and verify paramenters  & SRS.F.SW.14       & Parameter should reflect last change  & Failed - Parameters not retained \\ \addlinespace
+
+    \bottomrule
+\end{tabular}
+\caption{Testing: functional requirements}\label{tab:test_f}
+\end{table}

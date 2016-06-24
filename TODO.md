@@ -1,3 +1,4 @@
+- [x] Abstract
 - [x] Introduction
   - [x] Rationale
     - [x] RTLS
@@ -11,7 +12,7 @@
     - [x] Non functional requirements
     - [ ] Use cases
   - [x] Theoretical principles
-    - [ ] Ultra-wideband
+    - [x] Ultra-wideband
     - [x] Ranging algorithm
     - [x] Trilateration
     - [x] CAN Bus
@@ -49,7 +50,6 @@
       - [x] Two-way ranger
       - [ ] Location estimator
 - [ ] Testing
-  - [ ] Acceptance tracing
   - [ ] Acceptance tests
 - [ ] Conclusions
   - [ ] Product assessment
