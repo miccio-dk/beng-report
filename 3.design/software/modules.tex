@@ -52,7 +52,9 @@ The same applies to the UAVCAN derived classes and ChibiOS thread, which are all
 
 
 \subsubsection{decaWave drivers}
-This module contains the software APIs for managing the DWM1000 device as provided by decaWave, with minor adjustments and rewritten porting layer.
+This module contains the software APIs for managing the DWM1000 device, as provided by decaWave, with minor adjustments and completely rewritten porting layer.
+It is essentially a driver providing support to the main features of the transceiver, hiding the underlying register-map interface.
+It also includes all the calibration and parameters loop-up table described in the DW1000 user manual and API guide.
 
 The platform-dependent functions are conveniently detached from the rest of the code, and implemented in the following files:
 \begin{description}
@@ -62,14 +64,16 @@ The platform-dependent functions are conveniently detached from the rest of the 
     \item[\texttt{port.c}] Implementation of the aforementioned functions
 \end{description}
 
-All of the described code has been reimplemented using ChibiOS-specific HAL and Rt calls.
+All of the described code has been reimplemented using ChibiOS-specific HAL and RT calls.
 While the first two functionalities could be tightly mapped to ChibiOS equivalents, the same was not possible with the latter files, and  some of the generic initialization operations have been moved out of the decaWave port layer and into the board module.
 As of today, only polling-based communication with the DWM1000 is supported.
 
 Since the library is written in C, a common practice would be to wrap all the necessary API methods, static variables, and headers in a C++ class.
 However, due to the staggering amount of functions and the disappointing previous results of such attempt, it has been chosen to employ them as-is, and limit their scope to the ranging module.
 In order to be able to use them from the C++ ranging class, the relevant header files have to be surrounded by the \texttt{extern \"C\"} directive.
-This is to avoid name mangling in function calls, which would otherwise result in linker errors.
+This is to avoid C++ compiler name mangling in function calls, which would otherwise result in linker errors.
+
+Care must be taken as the API is not designed to be re-entrant, therefore only a single thread can call them or a synchronization strategy must be employed.
 
 
 \subsubsection{Configuration manager}
@@ -113,8 +117,48 @@ These are subject to extension as new functionalities will arise and require tes
 
 
 \subsubsection{Two-way ranger}
-As per title.
+This module is responsible of performing individual distance measurements between the tag and the anchors.
+As such, it is available in two, complementary variants: the \emph{initiator} running in the tag, and the \emph{responder} responder running in the anchor.
+
+\emph{As of today, the implementation of this module exists only in a proof-of-concept application basis.
+The following explanation of the class is provided for reference purposes.
+The relevant example code can be found in the deliverables.}
+
+The software module is to be implemented as a C++ class and leverages on the decaWave driver for operating the radio modules.
+It is meant to be used as part of the \emph{Location estimator} rather than on its own.
+
+
+\paragraph{Inizialization}
+The class shall provide means of configuring the DW1000 modules appropriately.
+The decaWave functions responsible for this are \texttt{reset\_DW1000()},  \texttt{dwt\_initialise()}, and \texttt{dwt\_configure()}.
+The former performs a hard reset of the module.
+Subsequently, the second function initializes the internal transceiver and the static data structures used by the driver.
+It may also enable \emph{LDE microcode}, which allows for more accurate timestaping.
+From this point, the SPI bus can be set to full speed.
+The latter is then used to apply the configuration values to the radio.
+
+All device types undergo the same configuration process, with the same parameters.
+The exact values of parameters depend heavily on the ranging scheme adopted.
+
+Antenna delays are also required to be configured for optimal performance, with values stemming from experimental observation or systematic calibration of each board.
+
+
+\paragraph{Discovery and pairing}
+Once the configuration and calibration process is over, the tag is responsible of performing a network discovery in order to compile a list of available anchors.
+It will therefore broadcast a pairing message containing an ID (the implementation details of which may vary, but could be the vendor-assigned UID, or could be randomly drawn from an agreed-upon range).
+Anchors in the area will then respond with unicast messages, revealing their IDs.
+Further steps may be necessary to define shorter (ideally \SI{16}{\bit}) addresses valid for a single session.
+
+
+\paragraph{Ranging procedure}
+The ranging procedure involves two different messages: \emph{poll} and \emph{response}.
+A poll is sent by the initiator\tag to a specific anchor whenever a new distance measurement is required.
+To do so, it must include its ID as the source and the anchor ID as the destination.
+A response is sent by the anchor/responder, and contains the timestamp of the last poll arrival, as well as that of its transmission.
+
+In case of successful message exchange (no timeout occurred, matching checksums) the tag can safely calculate and return the new distance sample.
+Note that the aforementioned procedure describes a \emph{single-sided} ranging scheme.
+Other schemes may require different packages or data, in accordance the discussion in section \nameref{sec:theory}.
 
 
 \subsubsection{Location estimator}
-As per title.

@@ -46,13 +46,11 @@
       - [x] decaWave drivers
       - [x] Configuration manager
       - [x] Command line interface
-      - [ ] Two-way ranger
+      - [x] Two-way ranger
       - [ ] Location estimator
-      - [ ] Idle task
 - [ ] Testing
   - [ ] Acceptance tracing
   - [ ] Acceptance tests
-  - [ ] Unit tests
 - [ ] Conclusions
   - [ ] Product assessment
   - [ ] Process assessment
@@ -60,4 +58,4 @@
 - [ ] Bibliography
 - [ ] Glossary
 - [ ] User manual
-- [ ] Further material
+- [x] Further material

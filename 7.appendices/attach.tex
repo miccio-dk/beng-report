@@ -1,13 +1,40 @@
+% !TEX root = ../root.tex
 \chapter{Deliverables}\label{app:deliv}
 
-Further content to be found in the hand-in support, with explanation of its folder structure.
-It may include:
+This section contains a description of the material found in the hand-in support.
 
-\begin{itemize}
-\item Source code
-\item Repository commit logs
-\item Matlab scripts
-\item Data and pictures from tests
-\item Production files
-\item Bill of materials
-\end{itemize}
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} >{\ttfamily}l l @{}}
+    \toprule
+    \normalfont{Directory or file}                        & Description \\
+    \midrule
+    .                                                     & Root folder \\
+    ./iter1/                                          & First project iteration based on LPC1549 \\
+    ./iter1/hardware/                                    & KiCad project including schematics and production files \\
+    ./iter1/firmware/                                     & Source code folder \\
+    ./iter1/firmware/lpc1549\_uavcan\_drv/             & Porting of UAVCAN drivers for LPC1549 platform \\
+    ./iter1/firmware/lpc1549\_hal/                     & C++ hardware abstraction layer for common peripherals \\
+    ./iter1/firmware/lpc1549\_modules/                     & Reusable high-level modules \\
+    ./iter1/firmware/lpc1549\_rtls/                     & Application project \\
+    ./iter1/firmware/lpc\_chip\_15xx/                     & LPCOpen libraries \\
+    ./iter1/examples/                                 & Test code and proof of concepts \\
+    ./iter1/examples/raw\_can/                                 & Transmission of raw CAN frames \\
+    ./iter1/examples/txrx/                                 & Message transmission with DW1000 \\
+    \addlinespace
+    ./iter2/                                          & Second project iteration based on STM32F405 \\
+    ./iter2/hardware/                                    & KiCad project including schematics and production files \\
+    ./iter2/firmware/                                 & Application project (including all third-party libraries)\\
+    ./iter2/examples/                                 & Test code and proof of concepts \\
+    ./iter2/examples/txrx/                                 & Message transmission with DW1000 \\
+    ./iter2/examples/ss2wr/                                 & Test code with two-way ranging (single sided) \\
+    ./iter2/examples/ds2wr/                                 & Test code with two-way ranging (double sided) \\
+    \addlinespace
+    ./docs/                                           & Documentation: datasheets, application notes, manuals etc\dots \\
+    \addlinespace
+    ./report/                                       & This document, in pdf as well as \LaTeX\ formats \\
+
+    \bottomrule
+\end{tabular}
+\caption{Further material: folder structure}\label{tab:deliv}
+\end{table}
