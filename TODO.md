@@ -10,7 +10,7 @@
   - [x] Requirements specification
     - [x] Functional requirements
     - [x] Non functional requirements
-    - [ ] Use cases
+    - [x] Use cases
   - [x] Theoretical principles
     - [x] Ultra-wideband
     - [x] Ranging algorithm
@@ -22,7 +22,7 @@
       - [x] Hardware
       - [x] Software
     - [x] Prevention and mitigation
-  - [ ] Milestone plan
+  - [x] Milestone plan
 - [x] Design and implementation
   - [x] Hardware
     - [x] Setup
@@ -48,14 +48,15 @@
       - [x] Configuration manager
       - [x] Command line interface
       - [x] Two-way ranger
-      - [ ] Location estimator
-- [ ] Testing
-  - [ ] Acceptance tests
+      - [x] Location estimator
+- [x] Testing
+  - [x] Acceptance tests
 - [ ] Conclusions
   - [ ] Product assessment
   - [ ] Process assessment
   - [ ] Possible improvements
 - [ ] Bibliography
-- [ ] Glossary
-- [ ] User manual
+- [x] Glossary
 - [x] Further material
+- [x] Pics
+- [ ] Archive

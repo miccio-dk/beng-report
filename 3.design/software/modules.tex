@@ -171,3 +171,12 @@ Just like the node module discussed above, this module covers several roles:
     \item Compute the current device location, based on the ranging samples
     \item Publish the result over the UAVCAN network
 \end{itemize}
+
+In order to manage these functionalities, a thread-based loop structure could be employed, as in absence of sensor data fusion the position update frequency is the same as that of the ranging.
+
+Since ranging initiation messages are unicasts, the location estimator is also responsible for storing the short addresses of the anchors.
+This is a desirable feature in case of different, overlapping positioning systems.
+
+The most simple approach to multilateration would consist in calculating the point of interception derived from only two of the anchors, and then use the remaining one (which should be the first one polled as it provides the most obsolete measurement) for choosing one of the two resulting points.
+
+More refined techniques might involve a dead reckoner (based on IMU data) combined with the multilateration data through a complementary or Kalman filter, or a simple weight system based on previous accuracy, used to select the ``recessive'' anchor.

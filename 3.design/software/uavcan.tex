@@ -16,7 +16,7 @@ Although UAVCAN frame IDs are 29 bits in size (\emph{CAN 2.0B}), its bus can be 
 \emph{Anonymous message frames} are those sent by nodes which do not have a default node ID and have not been assigned one yet.
 In order to avoid CAN collision deadlock, the discriminator section has to be filled with random data.
 
-\fig{10cm}{uc_frm_pl.png}{UAVCAN protocol: Payload format}{uc_frm_pl}
+\fig{3.5cm}{uc_frm_pl.png}{UAVCAN protocol: Payload format}{uc_frm_pl}
 
 The payload structure is the same regardless of transfer type.
 In single-frame transfers, the \emph{start of transfer} and \emph{end of transfer} bits shown in \autoref{fig:uc_frm_pl} are both set to one.

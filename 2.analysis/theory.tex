@@ -89,7 +89,7 @@ In particular, GPS technology leverages on trilateration for providing its servi
 The process of trilateration can be easily visualized in two dimensions by considering the circle projected by the set of points equidistant from a given reference.
 The radius of such circle is the distance between an anchor whose location is known (the center of the circle) and a tag whose location is to be found.
 
-\fig{5cm}{trilat.png}{Trilateration: example case in two dimensions \cite{}}{trilat}
+\fig{5cm}{trilat.png}{Trilateration: example case in two dimensions}{trilat}
 
 Adding another anchor and projecting its distance from the tag brings down the possible location to two points.
 In the ideal case, a third anchor would project a circle intercepting precisely in one of these points.
@@ -116,7 +116,7 @@ Each bit is divided into time intervals called \emph{quanta}, and the first quan
 Whenever a recessive-to-dominant bit transition occurs outside of the synchronization segment, the sampling time is moved accordingly.
 To ensure enough transitions to perform the above procedure, a bit of opposite polarity is inserted after five consecutive equal bits, through a process called \emph{bit stuffing}.
 
-\fig{5cm}{can_smpl.png}{CAN Bus: bit timing example }{can_smpl}
+\fig{2cm}{can_smpl.png}{CAN Bus: bit timing example }{can_smpl}
 
 Most CAN interfaces support automatic filtering of undesired frames through acceptance filter.
 The process consists in performing a bitwise \emph{and} operation between the incoming frame ID and an acceptance bit-mask, and then comparing the result with the content of a filter register: if these match, the frame is added to the reception queue.

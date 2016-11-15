@@ -5,14 +5,14 @@ For these tests, the following tools have been used:
     \item UAVCAN to DE-9 connector adapter
     \item CAN bus to USB probe
     \item STLinkV2 debugger probe
-    \item \texttt{uavcan\_monitor} utility
-    \item \texttt{uavcan\_nodetool} utility
-    \item UAVCAN \texttt{gui\_tool} utility
+    \item \texttt{uavcan\_monitor} utility, for list of connected nodes
+    \item \texttt{uavcan\_nodetool} utility, for interfacing with nodes
+    \item \texttt{gui\_tool} utility, for comprehensive high-level feature tests
 \end{itemize}
 
 \begin{table}[H]
 \centerfloat
-\begin{tabular}{@{} >{\small}l >{\small}m{16em} >{\small}l  >{\small}m{12em}  >{\small}m{6em} @{}}
+\begin{tabular}{@{} >{\footnotesize}l >{\footnotesize}m{16em} >{\footnotesize}l  >{\footnotesize}m{12em}  >{\footnotesize}m{6em} @{}}
     \toprule
     \normalfont{ID} &      \normalfont{Description}                               & \normalfont{Related SRS}      & \normalfont{Espected result}    & \normalfont{Outcome} \\
     \midrule
@@ -29,14 +29,16 @@ For these tests, the following tools have been used:
     T.SW.6  &  & SRS.F.SW.6       &   & Not verified \\ \addlinespace
     T.SW.7  &  Connect to PC through CAN adapter, launch \texttt{uavcan\_nodetool}, send several cfg commands, reboot board and verify paramenters & SRS.F.SW.7       & Parameter should reflect last change  & Failed - Parameters not retained \\ \addlinespace
 
-    T.SW.8  & Connect to PC through debugger header,  & SRS.F.SW.8       &   & Failed - feature not implemented \\ \addlinespace
-    T.SW.9  &  & SRS.F.SW.9       &   & Failed - feature not implemented \\ \addlinespace
-    T.SW.10 &  & SRS.F.SW.10       &   & Failed - feature not implemented \\ \addlinespace
-    T.SW.11 &  & SRS.F.SW.11       &   & Failed - feature not implemented \\ \addlinespace
-    T.SW.12 &  & SRS.F.SW.12       &   & Failed - feature not implemented \\ \addlinespace
-    T.SW.13 &  & SRS.F.SW.13       &   & Failed - feature not implemented \\ \addlinespace
+    T.SW.8  &  & SRS.F.SW.8       &   & Feature not implemented \\ \addlinespace
+    T.SW.9  &  & SRS.F.SW.9        &   & Feature not implemented \\ \addlinespace
+    T.SW.10 &  & SRS.F.SW.10       &   & Feature not implemented \\ \addlinespace
+    T.SW.11 &  & SRS.F.SW.11       &   & Feature not implemented \\ \addlinespace
+    T.SW.12 &  & SRS.F.SW.12       &   & Feature not implemented \\ \addlinespace
+    T.SW.13 &  & SRS.F.SW.13       &   & Feature not implemented \\ \addlinespace
     T.SW.14 & Connect to PC through USB port, open serial emulator, send several cfg commands, reboot board and verify paramenters  & SRS.F.SW.14       & Parameter should reflect last change  & Failed - Parameters not retained \\ \addlinespace
-
+    T.SW.15 &  & SRS.F.SW.15   &  & Feature not implemented \\ \addlinespace
+    T.SW.16 &  & SRS.F.SW.16   &  & Feature not implemented \\ \addlinespace
+    T.SW.17 &  & SRS.F.SW.17   &  & Feature not implemented \\ \addlinespace
     \bottomrule
 \end{tabular}
 \caption{Testing: functional requirements}\label{tab:test_f}
